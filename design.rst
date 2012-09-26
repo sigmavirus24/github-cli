@@ -7,13 +7,21 @@ gh could become location aware, e.g., if I'm in ``~/sandbox/github3.py``, I
 wouldn't need to specify it. Taking the argument, however, allows a user to 
 specify any repository they want from anywhere on their machine.
 
+Also, I'm hoping to absorb some of `command bar`_'s functionality.
+
 - Manage issues
+
+  + Create a new issue
+
+    ::
+
+        $ gh github3.py issues new
 
   + List issues on a repository or collection of repositories
 
     ::
 
-        $ gh github3.py list issues
+        $ gh github3.py issues
          4 Serialization of Objects (@sigmavirus24)
         15 Pagination of certain functions (@sigmavirus24)
         16 Fix usage of expect.raises (@sigmavirus24)
@@ -25,7 +33,7 @@ specify any repository they want from anywhere on their machine.
 
     ::
 
-        $ gh github3.py issue 15
+        $ gh github3.py issues #15  # or just gh #15
         Pagination of certain functions (@sigmavirus24)
         -----------------------------------------------------------------------
         So currently, when someone uses a method like ``list_issues()`` they 
@@ -100,6 +108,27 @@ specify any repository they want from anywhere on their machine.
 
   + Star/unstar and subscribe to/unsubscribe from repositories
 
+- Manage downloads
+
+  + Create new downloads
+
+    ::
+
+        $ gh github3.py downloads new
+
+  + List downloads
+
+    ::
+
+        $ gh github3.py downloads
+        [id] [date] name (# of downloads)
+
+  + Download something
+
+    ::
+
+        $ gh github3.py downloads id
+
 - Manage gists
 
   + Create new gists from stdin or a file
@@ -113,6 +142,10 @@ specify any repository they want from anywhere on their machine.
   + Comment on gists
 
 - List events received by the authenticated user
+
+  ::
+
+    $ gh my
 
 
 Design
@@ -133,9 +166,12 @@ This project will be large enough to warrant a pip like design.
       + main.py
       + commands/
         - __init__.py
-        - gist.py
-        - issue.py
-        - list.py
-        - news.py
-        - pull.py
-        - repo.py
+        - gists.py
+        - issues.py
+        - my.py
+        - pulls.py
+        - repos.py
+
+
+.. links
+.. _command bar: https://github.com/blog/1264-introducing-the-command-bar
