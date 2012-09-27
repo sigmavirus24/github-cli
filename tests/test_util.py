@@ -6,9 +6,10 @@ import shutil
 
 class TestUtil(TestCase):
     def setUp(self):
+        self.orig = os.path.abspath(os.curdir)
         os.makedirs('proj/.git/')
         os.makedirs('proj/subdir/subdir2/subdir3')
-        with open('proj/.git', 'w+') as fd:
+        with open('proj/.git/config', 'w+') as fd:
             fd.writelines(
                     [
                        '[core]',
@@ -19,6 +20,7 @@ class TestUtil(TestCase):
                     )
 
     def tearDown(self):
+        os.chdir(self.orig)
         shutil.rmtree('proj')
 
     def test_find_git_config(self):
