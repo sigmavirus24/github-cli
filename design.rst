@@ -175,3 +175,51 @@ This project will be large enough to warrant a pip like design.
 
 .. links
 .. _command bar: https://github.com/blog/1264-introducing-the-command-bar
+
+
+Command Bar Help
+================
+
+::
+
+     1. @user
+     2. @user (un)follow
+     3. my dashboard
+     4. my issues
+     5. my notifications
+     6. my profile
+     7. my pulls
+     8. my stars
+     9. user/repo
+    10. user/repo #issue  (also: issues #issue)
+    11. user/repo #issue search_term
+    12. user/repo @branch
+    13. user/repo graphs
+    14. user/repo issues
+    15. user/repo issues new
+    16. user/repo network
+    17. user/repo pulls
+    18. user/repo (un)watch
+    19. user/repo wiki
+
+The following can be done via the API with certainty:
+
+- 1-4
+
+- 6-11
+
+- 14-15
+
+- 17-18
+
+Why the rest are possibly not easily done via the API:
+
+- 5 is likely undoable because there is no API for notifications
+
+- 12 shows the branch, we could checkout said branch if we're in the 
+  repository but why replace the trusty: ``git checkout branch``?
+
+- 13 and 16 are graphs we cannot reproduce. 16 could be doable by listing 
+  forks, but it won't show progress on those forks.
+
+- 19 - the wiki is unavailable to us through the API.
