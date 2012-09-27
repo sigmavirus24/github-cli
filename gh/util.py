@@ -37,13 +37,16 @@ def find_git_config():
     directory and it's parent.
     """
     # Not generic, needs to be generalized
-    current_dir = os.path.abspath('.git')
-    current_config = os.path.abspath('.git/config')
-    parent_dir = os.path.abspath('../.git')
-    parent_config = os.path.abspath('../.git/config')
+    original = cur_dir = os.path.abspath(os.curdir)
+    home = os.path.abspath(os.environ.get('HOME', ''))
 
-    if os.lstat(current_dir) and os.access(current_config, os.R_OK):
-        return current_config
-    if os.lstat(parent_dir) and os.access(parent_config, os.R_OK):
-        return parent_config
+    while cur_dir != home:
+        if os.path.isdir('.git') and os.access('.git/config', os.R_OK):
+            os.chdir(original)
+            return os.path.join(cur_dir, '.git', 'config')
+        else:
+            os.chdir(os.pardir)
+            cur_dir = os.path.abspath(os.curdir)
+
+    os.chdir(original)
     return ''
