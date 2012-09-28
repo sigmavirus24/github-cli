@@ -18,21 +18,23 @@ class TestUtil(TestCase):
                        'url = git@github.com:sigmavirus24/Todo.txt-python.git'
                        ]
                     )
+        os.chdir('proj')
 
     def tearDown(self):
         os.chdir(self.orig)
         shutil.rmtree('proj')
 
     def test_find_git_config(self):
-        dirs = ['./proj', './proj/subdir', './proj/subdir/subdir2',
-                './proj/subdir/subdir2/subdir3']
+        dirs = ['./subdir', './subdir/subdir2', './subdir/subdir2/subdir3']
         dirs = [os.path.abspath(d) for d in dirs]
-        path = os.path.join(os.path.abspath(os.curdir), 'proj', '.git',
-                'clone')
+        path = os.path.join(os.path.abspath(self.orig), 'proj', '.git',
+                'config')
         for d in dirs:
             os.chdir(d)
-            assert find_git_config() == path
+            ret = find_git_config()
+            assert path == ret
             assert os.path.abspath(os.curdir) == d
 
     def test_get_repository_tuple(self):
-        assert ('sigmavirus24', 'Todo.txt-python') == get_repository_tuple()
+        ret = get_repository_tuple()
+        assert ('sigmavirus24', 'Todo.txt-python') == ret

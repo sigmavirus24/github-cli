@@ -1,8 +1,5 @@
 from re import compile
-from collections import namedtuple
 import os
-
-repo = namedtuple('Repository', ['owner', 'repo'])
 
 
 def get_repository_tuple():
@@ -15,20 +12,19 @@ def get_repository_tuple():
             '(?:https://|git@)github\.com(?::|/)([^\./-]*)/(.*)'
             )
     config = find_git_config()
-    if not config:
-        return ()
+    r = ()
+    if config:
+        fd = open(config)
+        for line in fd:
+            match = reg.search(line)
+            if match and match.groups():
+                r = match.groups()
+                break
 
-    fd = open(config)
-    r = repo('', '')
-    for line in fd:
-        match = reg.search(line)
-        if match and match.groups():
-            r = repo(*match.groups())
-            break
+        fd.close()
 
-    fd.close()
-    if r.repo.endswith('.git'):
-        r = repo(r.owner, r.repo[:-4])
+    if r and r[1].endswith('.git'):
+        r = (r[0], r[1][:-4])
     return r
 
 
