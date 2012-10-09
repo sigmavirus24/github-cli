@@ -46,3 +46,11 @@ def find_git_config():
 
     os.chdir(original)
     return ''
+
+
+# terminal accents
+tc = {
+    'bold': "\033[1m",
+    'default': "\033[0m",
+    'underline': "\033[0;4m",
+    }

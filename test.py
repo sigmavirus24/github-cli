@@ -1,3 +1,3 @@
-from gh.main import main
+from gh import main
 
 main()

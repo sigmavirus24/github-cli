@@ -1,5 +1,5 @@
 from gh.base import Command
-from gh.util import get_repository_tuple
+from gh.util import get_repository_tuple, tc
 from github3 import repository
 
 
@@ -19,8 +19,9 @@ class IssuesCommand(Command):
                 print self.format_issue(i)
 
     def format_issue(self, issue):
-        fs = '[#{0.number}] {0.title:.36} - @{0.user.login}'
-        return fs.format(issue)
+        fs = ('#{bold}{0.number}{default} {0.title:.36} - '
+            '@{underline}{u.login}{default}')
+        return fs.format(issue, u=issue.user, **tc)
 
 
 # Ensures this ends up in gh.base.commands
