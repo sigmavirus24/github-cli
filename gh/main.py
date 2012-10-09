@@ -1,17 +1,16 @@
-from gh.base import CustomOptionParser, load_command, commands
+from gh.base import main_parser, load_command, commands
 import sys
 
 
 def main():
     prog = sys.argv[0]
-    parser = CustomOptionParser()
-    opts, args = parser.parse_args()
+    opts, args = main_parser.parse_args()
 
     if opts.help and not args:
         args = ['help']
 
     if not args:
-        parser.error('You must provide a command. Use `{0} help`'.format(
+        main_parser.error('You must provide a command. Use `{0} help`'.format(
             prog))
 
     repository = ()

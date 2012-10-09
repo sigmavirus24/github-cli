@@ -26,28 +26,31 @@ class CustomOptionParser(OptionParser):
         kwargs.update(add_help_option=False)
         OptionParser.__init__(self, *args, **kwargs)
         self.disable_interspersed_args()
-        self.add_option('-h', '--help',
-                dest='help',
-                action='store_true',
-                help='Show help')
 
-        self.add_option('-u', '--basic-auth',
-                dest='basic_auth',
-                action='store_true',
-                default=False,
-                help='Force basic authentication')
 
-        self.add_option('-c', '--config',
-                dest='config_path',
-                type='str',
-                default='$HOME/.ghconfig',
-                nargs=1)
+main_parser = CustomOptionParser()
+main_parser.add_option('-h', '--help',
+        dest='help',
+        action='store_true',
+        help='Show help')
 
-        self.add_option('-L', '--location-aware',
-                dest='loc_aware',
-                action='store_false',
-                default=True,
-                help='Disable location awareness')
+main_parser.add_option('-u', '--basic-auth',
+        dest='basic_auth',
+        action='store_true',
+        default=False,
+        help='Force basic authentication')
+
+main_parser.add_option('-c', '--config',
+        dest='config_path',
+        type='str',
+        default='$HOME/.ghconfig',
+        nargs=1)
+
+main_parser.add_option('-L', '--location-aware',
+        dest='loc_aware',
+        action='store_false',
+        default=True,
+        help='Disable location awareness')
 
 
 def load_command(name):
