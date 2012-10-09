@@ -23,7 +23,7 @@ import sys
 import os
 import re
 
-if __name__ == "__main__":
+def main(script=False):
     if sys.version_info >= (2, 7):
         suite = unittest.defaultTestLoader.discover("tests")
     else:
@@ -33,4 +33,10 @@ if __name__ == "__main__":
         names = [join(['tests', f[:-3]]) for f in names if regex.match(f)]
         suite = unittest.defaultTestLoader.loadTestsFromNames(names)
 
-    unittest.TextTestRunner(verbosity=1).run(suite)
+    if script:
+        unittest.TextTestRunner(verbosity=1).run(suite)
+    else:
+        return suite
+
+if __name__ == "__main__":
+    main(True)

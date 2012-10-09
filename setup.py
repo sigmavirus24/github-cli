@@ -33,6 +33,7 @@ with open('gh/__init__.py') as fd:
 if not __version__:
     raise RuntimeError('Cannot find version information')
 
+
 setup(
     name='gh-cli',
     version=__version__,
@@ -46,6 +47,8 @@ setup(
     package_data=pkg_data,
     include_package_data=True,
     install_requires=requires,
+    test_requires=requires,
+    test_suite='run_tests.main',
     classifiers=[
         'Environment :: Console',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
