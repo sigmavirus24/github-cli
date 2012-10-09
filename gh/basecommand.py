@@ -13,9 +13,6 @@ class Command(object):
         assert self.name
         commands[self.name] = self
 
-    def main(self, args, options):
-        return NotImplemented
-
     @abstractmethod
-    def run(self, options, args):
+    def run(self, args):
         return None
