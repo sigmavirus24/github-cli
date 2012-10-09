@@ -1,5 +1,8 @@
 from abc import abstractmethod, ABCMeta
 from optparse import OptionParser
+from textwrap import TextWrapper
+from github3 import repository
+from gh.util import get_repository_tuple
 import sys
 
 commands = {}
@@ -19,6 +22,14 @@ class Command(object):
     @abstractmethod
     def run(self, options, args):
         return None
+
+    def get_repo(self, options):
+        self.repo = None
+        if self.repository:
+            self.repo = repository(*self.repository)
+
+        if not self.repository and options.loc_aware:
+            self.repo = repository(*get_repository_tuple())
 
 
 class CustomOptionParser(OptionParser):
@@ -60,3 +71,6 @@ def load_command(name):
             __import__(full_name)
         except ImportError:
             pass
+
+
+wrap = TextWrapper(width=72, replace_whitespace=False).wrap
