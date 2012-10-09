@@ -28,7 +28,7 @@ License
 .. image::
     http://gplv3.fsf.org/gplv3-127x51.png
     :alt: GPLv3
-    :target:https://github.com/sigmavirus24/github-cli/blob/master/LICENSE
+    :target: https://github.com/sigmavirus24/github-cli/blob/master/LICENSE
 
 
 .. links:
