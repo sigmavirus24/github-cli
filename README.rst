@@ -22,6 +22,21 @@ Design
 
 Take a look at design.rst_\ .
 
+Current Usage
+-------------
+
+This shouldn't be installed yet. If you're interested in playing with this, 
+however, make sure you have github3.py_ installed. You can then run 
+``test.py`` in the root directory. The script is already location aware, but 
+you won't see any for this repository (yet). An couple example usages are:
+
+::
+
+    python test.py kennethreitz/requests issues -d asc
+    python test.py kennethreitz/requests issues 889 comments
+    python test.py kennethreitz/requests issues "#889" comments
+    python test.py kennethreitz/requests issues -s closed -n 10 -d asc
+
 License
 -------
 
