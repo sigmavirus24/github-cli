@@ -1,3 +1,4 @@
+from textwrap import TextWrapper
 from re import compile
 import os
 
@@ -54,3 +55,5 @@ tc = {
     'default': "\033[0m",
     'underline': "\033[0;4m",
     }
+
+wrap = TextWrapper(width=72, replace_whitespace=False).wrap

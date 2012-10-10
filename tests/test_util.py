@@ -1,5 +1,5 @@
 from unittest import TestCase
-from gh.util import find_git_config, get_repository_tuple
+from gh.util import find_git_config, get_repository_tuple, wrap
 import os
 import shutil
 
@@ -38,3 +38,9 @@ class TestUtil(TestCase):
     def test_get_repository_tuple(self):
         ret = get_repository_tuple()
         assert ('sigmavirus24', 'Todo.txt-python') == ret
+
+    def test_wrap(self):
+        assert ''.join(wrap('foo')) == 'foo'
+        eighty = '-' * 80
+        wrapped = '-' * 72 + '\n' + '-' * 8
+        assert '\n'.join(wrap(eighty)) == wrapped

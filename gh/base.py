@@ -1,6 +1,5 @@
 from abc import abstractmethod, ABCMeta
 from optparse import OptionParser
-from textwrap import TextWrapper
 from github3 import repository
 from gh.util import get_repository_tuple
 import sys
@@ -71,6 +70,3 @@ def load_command(name):
             __import__(full_name)
         except ImportError:
             pass
-
-
-wrap = TextWrapper(width=72, replace_whitespace=False).wrap
