@@ -1,7 +1,6 @@
 from unittest import TestCase
 from github3 import issue
 from gh.util import tc
-from gh.base import main_parser
 from gh.commands.issues import IssuesCommand
 import sys
 import os
@@ -13,7 +12,7 @@ class TestIssuesCommand(TestCase):
         self.issue = issue('sigmavirus24', 'github3.py', 30)
         self.command = IssuesCommand()
         self.command.repository = ('sigmavirus24', 'github3.py')
-        self.opts = main_parser.parse_args([])
+        self.opts, _ = self.command.parser.parse_args([])
         self.command.get_repo(self.opts)
 
     def setUp(self):
@@ -39,5 +38,5 @@ class TestIssuesCommand(TestCase):
 
     def test_single_issue(self):
         assert self.command.single_issue(30, self.opts, []) == 0
-        assert self.command.single_issue(30, self.opts, ['comments']) == 1
+        assert self.command.single_issue(30, self.opts, ['comments']) == 0
         assert self.command.single_issue(30, self.opts, ['commands']) == 1

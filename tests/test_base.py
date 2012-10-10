@@ -31,7 +31,7 @@ class TestBase(TestCase):
 
         global commands
         if self.command in commands:
-            commands = {}
+            del commands[self.command]
 
     def test_load_command(self):
         load_command(self.command)
@@ -42,6 +42,5 @@ class TestBase(TestCase):
     def test_commands(self):
         assert self.command not in commands
         load_command(self.command)
-        assert self.command in commands, '{0} not in commands dict'.format(
-                self.command
-                )
+        assert self.command in commands, ('{0} not in '
+                'commands dict'.format(self.command))
