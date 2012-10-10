@@ -56,7 +56,7 @@ class IssuesCommand(Command):
                     direction=opts.direction, mentioned=opts.mentioned,
                     number=opts.number)
             for i in iter:
-                print self.format_short_issue(i)
+                print(self.format_short_issue(i))
             return 0
 
         if args[0].startswith('#'):
@@ -85,10 +85,10 @@ class IssuesCommand(Command):
         status = 0
         issue = self.repo.issue(number)
         if not args:
-            print self.format_long_issue(issue)
+            print(self.format_long_issue(issue))
         elif 'comments' in args:
             for c in issue.iter_comments(opts.number):
-                print self.format_comment(c)
+                print(self.format_comment(c))
         return status
 
 

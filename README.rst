@@ -4,7 +4,7 @@ github-cli
 .. image::
     https://secure.travis-ci.org/sigmavirus24/github-cli.png?branch=master
     :alt: Build Status
-    :target: http://travis-ci.org/sigmavirus24/github3-cli
+    :target: http://travis-ci.org/sigmavirus24/github-cli
 
 Currently, this is just an idea, but this tool will provide comprehensive 
 interaction with GitHub from the commandline via the API.

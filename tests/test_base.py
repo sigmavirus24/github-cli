@@ -11,7 +11,7 @@ class TestCommand(TestCase):
         try:
             a = A()
             a.run([], [])
-        except TypeError:
+        except (TypeError, AssertionError):
             pass
 
 
