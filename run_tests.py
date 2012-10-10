@@ -23,6 +23,7 @@ import sys
 import os
 import re
 
+
 def main(script=False):
     if sys.version_info >= (2, 7):
         suite = unittest.defaultTestLoader.discover("tests")
