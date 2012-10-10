@@ -26,12 +26,16 @@ class TestBase(TestCase):
     mod = 'gh.commands.issues'
 
     def setUp(self):
+        self.mods = sys.modules.copy()
         if self.mod in sys.modules:
             del sys.modules[self.mod]
 
         global commands
         if self.command in commands:
             del commands[self.command]
+
+    def tearDown(self):
+        sys.modules.update(self.mods)
 
     def test_load_command(self):
         load_command(self.command)
