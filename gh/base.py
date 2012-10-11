@@ -1,8 +1,11 @@
 from abc import abstractmethod, ABCMeta
 from optparse import OptionParser
-from github3 import repository
-from gh.util import get_repository_tuple
+from ConfigParser import ConfigParser
+from github3 import GitHub
+from getpass import getpass
+from gh.util import get_repository_tuple, github_config, input
 import sys
+import os
 
 commands = {}
 
@@ -17,6 +20,9 @@ class Command(object):
         super(Command, self).__init__()
         assert self.name
         commands[self.name] = self
+        self.gh = GitHub()
+        self.login()
+        self.parser = CustomOptionParser(usage=self.usage)
 
     @abstractmethod
     def run(self, options, args):
@@ -25,10 +31,31 @@ class Command(object):
     def get_repo(self, options):
         self.repo = None
         if self.repository:
-            self.repo = repository(*self.repository)
+            self.repo = self.gh.repository(*self.repository)
 
         if not self.repository and options.loc_aware:
-            self.repo = repository(*get_repository_tuple())
+            self.repo = self.gh.repository(*get_repository_tuple())
+
+    def login(self):
+        config = github_config()
+        parser = ConfigParser()
+        if os.path.isfile(config) and os.access(config, os.R_OK | os.W_OK):
+            parser.readfp(open(config))
+            self.gh.login(token=parser.get('github', 'token'))
+        else:
+            user = ''
+            while not user:
+                user = input('Username: ')
+            pw = ''
+            while not pw:
+                pw = getpass('Password: ')
+
+            auth = self.gh.authorize(user, pw, ['user', 'repo', 'gist'],
+                    'github-cli', 'https://github.com/sigmavirus24/github-cli')
+            parser.add_section('github')
+            parser.set('github', 'token', auth.token)
+            self.gh.login(token=auth.token)
+            parser.write(open(config, 'w+'))
 
 
 class CustomOptionParser(OptionParser):

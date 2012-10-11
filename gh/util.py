@@ -33,7 +33,6 @@ def find_git_config():
     """Attempt to find the git config file for this repository in this
     directory and it's parent.
     """
-    # Not generic, needs to be generalized
     original = cur_dir = os.path.abspath(os.curdir)
     home = os.path.abspath(os.environ.get('HOME', ''))
 
@@ -49,6 +48,12 @@ def find_git_config():
     return ''
 
 
+def github_config():
+    """Attempt to find the github config file."""
+    home = os.path.abspath(os.environ.get('HOME', ''))
+    config = os.path.join(home, '.githubconfig')
+    return config
+
 # terminal accents
 tc = {
     'bold': "\033[1m",
@@ -57,3 +62,8 @@ tc = {
     }
 
 wrap = TextWrapper(width=72, replace_whitespace=False).wrap
+
+try:
+    input = raw_input
+except NameError:
+    pass

@@ -1,16 +1,16 @@
-from gh.base import Command, CustomOptionParser
-from gh import util
+from gh.base import Command
+from gh.util import tc, wrap
 
 
 class IssuesCommand(Command):
     name = 'issues'
     usage = '%prog [user/repo] issues [OPTIONS] [sub-command(s)]'
+    summary = 'Interact with the Issues API'
     fs = ('#{bold}{0.number}{default} {0.title:.36} - '
             '@{underline}{u.login}{default}')
 
     def __init__(self):
         super(IssuesCommand, self).__init__()
-        self.parser = CustomOptionParser(usage=self.usage)
         self.parser.add_option('-d', '--direction',
                 dest='direction',
                 help='How to list issues on a repository',
@@ -67,19 +67,19 @@ class IssuesCommand(Command):
 
     def format_comment(self, comment):
         fs = '@{uline}{u.login}{default} -- {date}\n{body}\n'
-        body = '\n'.join(util.wrap(comment.body_text))
+        body = '\n'.join(wrap(comment.body_text))
         date = comment.created_at.strftime('%Y-%m-%d %H:%M:%S')
-        return fs.format(u=comment.user, uline=util.tc['underline'],
-                default=util.tc['default'], date=date, body=body)
+        return fs.format(u=comment.user, uline=tc['underline'],
+                default=tc['default'], date=date, body=body)
 
     def format_long_issue(self, issue):
         text = "{0}\n--\n{1}"
         title = self.format_short_issue(issue)
-        body = '\n'.join(util.wrap(issue.body_text))
+        body = '\n'.join(wrap(issue.body_text))
         return text.format(title, body)
 
     def format_short_issue(self, issue):
-        return self.fs.format(issue, u=issue.user, **util.tc)
+        return self.fs.format(issue, u=issue.user, **tc)
 
     def single_issue(self, number, opts, args):
         status = 0
@@ -89,6 +89,10 @@ class IssuesCommand(Command):
         elif 'comments' in args:
             for c in issue.iter_comments(opts.number):
                 print(self.format_comment(c))
+        elif 'close' in args:
+            issue.close()
+        elif 'reopen' in args:
+            issue.reopen()
         else:
             status = 1
         return status
