@@ -1,7 +1,7 @@
 try:
     input = raw_input
 except NameError:
-    pass
+    input = input
 
 
 try:
