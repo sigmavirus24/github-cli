@@ -21,7 +21,6 @@ class Command(object):
         assert self.name
         commands[self.name] = self
         self.gh = GitHub()
-        self.login()
         self.parser = CustomOptionParser(usage=self.usage)
 
     @abstractmethod

@@ -22,4 +22,6 @@ def main():
     load_command(command)
     if command in commands:
         commands[command].repository = repository
+        if command != 'help':
+            commands[command].login()
         commands[command].run(opts, args[1:])
