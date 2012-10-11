@@ -1,9 +1,9 @@
 from abc import abstractmethod, ABCMeta
 from optparse import OptionParser
-from ConfigParser import ConfigParser
 from github3 import GitHub
 from getpass import getpass
-from gh.util import get_repository_tuple, github_config, input
+from gh.util import get_repository_tuple, github_config
+from gh.compat import input, ConfigParser
 import sys
 import os
 

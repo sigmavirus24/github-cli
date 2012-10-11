@@ -62,8 +62,3 @@ tc = {
     }
 
 wrap = TextWrapper(width=72, replace_whitespace=False).wrap
-
-try:
-    input = raw_input
-except NameError:
-    pass
