@@ -65,7 +65,7 @@ class CustomOptionParser(OptionParser):
         self.disable_interspersed_args()
 
 
-main_parser = CustomOptionParser()
+main_parser = CustomOptionParser('%prog [options] [sub-command(s)]')
 main_parser.add_option('-h', '--help',
         dest='help',
         action='store_true',

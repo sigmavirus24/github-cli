@@ -4,7 +4,7 @@ from gh.util import tc, wrap
 
 class IssuesCommand(Command):
     name = 'issues'
-    usage = '%prog [user/repo] issues [OPTIONS] [sub-command(s)]'
+    usage = '%prog [options] [user/repo] issues [options] [sub-command(s)]'
     summary = 'Interact with the Issues API'
     fs = ('#{bold}{0.number}{default} {0.title:.36} - '
             '@{underline}{u.login}{default}')
