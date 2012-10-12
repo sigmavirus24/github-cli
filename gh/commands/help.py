@@ -5,23 +5,14 @@ from gh import commands as cmds
 
 class HelpCommand(Command):
     name = 'help'
-    usage = '%prog'
+    usage = '%prog help'
     summary = 'Display the help information'
 
     def __init__(self):
         super(HelpCommand, self).__init__()
+        self.parser = main_parser
 
     def run(self, options, args):
-        for _, command, __ in walk_packages(path=cmds.__path__):
-            load_command(command)
-
-        if args:
-            cmd = args[0].lower()
-            if cmd not in commands:
-                self.parser.error('No command named: {0}'.format(cmd))
-            commands[cmd].parser.print_help()
-            return 0
-
         def cmd_cmp(x, y):
             if x.name == y.name:
                 return 0
@@ -29,10 +20,19 @@ class HelpCommand(Command):
                 return 1
             return -1
 
-        main_parser.print_help()
-        print('\nSubcommands:')
-        for command in sorted(commands.values(), cmd_cmp):
-            print('  {0.name}: {0.summary}'.format(command))
+        # Load all available commands
+        for _, command, __ in walk_packages(path=cmds.__path__):
+            load_command(command)
+            self.subcommands[command] = commands[command].summary
+
+        if args:
+            cmd = args[0].lower()
+            if cmd not in commands:
+                self.parser.error('No command named: {0}'.format(cmd))
+            commands[cmd].help()
+            return 0
+
+        self.help()
 
         return 0
 

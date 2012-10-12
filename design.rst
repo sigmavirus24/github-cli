@@ -51,7 +51,7 @@ Also, I'm hoping to absorb some of `command bar`_'s functionality.
 
         ```python
         from github3 import repository
-        
+
         repo = repository(owner, repo_name)
         issues = repo.list_issues(page='rel_next')
         ```````

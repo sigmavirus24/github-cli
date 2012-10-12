@@ -15,6 +15,7 @@ class Command(object):
     name = None
     usage = None
     repository = ()
+    subcommands = {}
 
     def __init__(self):
         super(Command, self).__init__()
@@ -34,6 +35,9 @@ class Command(object):
 
         if not self.repository and options.loc_aware:
             self.repo = self.gh.repository(*get_repository_tuple())
+
+        if not (self.repo or options.loc_aware):
+            self.parser.error('A repository is required.')
 
     def login(self):
         config = github_config()
@@ -55,6 +59,15 @@ class Command(object):
             parser.set('github', 'token', auth.token)
             self.gh.login(token=auth.token)
             parser.write(open(config, 'w+'))
+
+    def help(self):
+        self.parser.print_help()
+        if self.subcommands:
+            print('\nSubcommands:')
+            for command in sorted(self.subcommands.keys()):
+                print('  {0}:\n\t{1}'.format(
+                    command, self.subcommands[command]
+                    ))
 
 
 class CustomOptionParser(OptionParser):

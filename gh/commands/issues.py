@@ -4,10 +4,17 @@ from gh.util import tc, wrap
 
 class IssuesCommand(Command):
     name = 'issues'
-    usage = '%prog [options] [user/repo] issues [options] [sub-command(s)]'
+    usage = ('%prog [options] [user/repo] issues [options] [number]'
+            ' [sub-command]')
     summary = 'Interact with the Issues API'
-    fs = ('#{bold}{0.number}{default} {0.title:.36} - '
-            '@{underline}{u.login}{default}')
+    fs = ('#{bold}{0.number}{default} {0.title:.36} - @{u.login}')
+    subcommands = {
+            '[#]1': 'Print the full issue',
+            '[#]1 comments': 'Print all the comments on this issue',
+            '[#]1 close': 'Close this issue',
+            '[#]1 reopen': 'Reopen this issue',
+            '[#]1 assign <assignee>': 'Assign this issue to @<assignee>',
+            }
 
     def __init__(self):
         super(IssuesCommand, self).__init__()
@@ -46,12 +53,10 @@ class IssuesCommand(Command):
 
     def run(self, options, args):
         self.get_repo(options)
-        if not (self.repo or options.loc_aware):
-            self.parser.error('issues requires a repository')
 
         opts, args = self.parser.parse_args(args)
 
-        if not args and self.repo:
+        if not args:
             iter = self.repo.iter_issues(opts.milestone, opts.state,
                     direction=opts.direction, mentioned=opts.mentioned,
                     number=opts.number)
@@ -62,8 +67,33 @@ class IssuesCommand(Command):
         if args[0].startswith('#'):
             args[0] = args[1:]
 
-        if args[0].isdigit():
-            return self.single_issue(args[0], opts, args[1:])
+        if not args[0].isdigit():
+            return -1
+
+        status = 0
+        number = args.pop(0)
+
+        subcommand = None
+        if args:
+            subcommand = args[0].lower()
+
+        if not subcommand:
+            issue = self.repo.issue(number)
+            print(self.format_long_issue(issue))
+        elif 'comments' == subcommand:
+            status = self.print_comments(number, opts)
+        elif 'close' == subcommand:
+            status = self.close_issue(number)
+        elif 'reopen' == subcommand:
+            status = self.reopn_issue(number)
+        elif args and ('assign' == subcommand):
+            self.assign(number, args[0])
+        else:
+            print('Unrecognized subcommand "{0}"'.format(subcommand))
+            self.help()
+            status = -1
+
+        return status
 
     def format_comment(self, comment):
         fs = '@{uline}{u.login}{default} -- {date}\n{body}\n'
@@ -73,30 +103,58 @@ class IssuesCommand(Command):
                 default=tc['default'], date=date, body=body)
 
     def format_long_issue(self, issue):
-        text = "{0}\n--\n{1}"
+        format_str = '{header}\n{sep}\n{body}\n'
+        sep = '-' * 78
         title = self.format_short_issue(issue)
         body = '\n'.join(wrap(issue.body_text))
-        return text.format(title, body)
+        return format_str.format(header=title, sep=sep, body=body)
 
     def format_short_issue(self, issue):
-        return self.fs.format(issue, u=issue.user, **tc)
-
-    def single_issue(self, number, opts, args):
-        status = 0
-        issue = self.repo.issue(number)
-        if not args:
-            print(self.format_long_issue(issue))
-        elif 'comments' in args:
-            for c in issue.iter_comments(opts.number):
-                print(self.format_comment(c))
-        elif 'close' in args:
-            issue.close()
-        elif 'reopen' in args:
-            issue.reopen()
+        extra = []
+        if issue.milestone:
+            extra.append(issue.milestone.title)
+        if issue.assignee:
+            extra.append(issue.assignee.login)
+        if extra:
+            extra = '(' + ' -- '.join(extra) + ')'
         else:
-            status = 1
-        return status
+            extra = ''
+        return self.fs.format(issue, u=issue.user, bold=tc['bold'],
+                default=tc['default']) + extra
 
+    def print_comments(self, number, opts):
+        issue = self.repo.issue(number)
+        if not issue:
+            return -1
+        for c in issue.iter_comments(opts.number):
+            print(self.format_comment(c))
+        return 0
+
+    def _get_authenticated_issue(self, number):
+        self.login()
+        user, repo = self.repository
+        return self.gh.issue(user, repo, number)
+
+    def close_issue(self, number):
+        issue = self._get_authenticated_issue(number)
+        if not issue:
+            return -1
+        issue.close()
+        return 0
+
+    def reopen_issue(self, number):
+        issue = self._get_authenticated_issue(number)
+        if not issue:
+            return -1
+        issue.reopen()
+        return 0
+
+    def assign(self, number, assignee):
+        issue = self._get_authenticated_issue(number)
+        if not issue:
+            return -1
+        issue.assign(assignee)
+        return 0
 
 # Ensures this ends up in gh.base.commands
 IssuesCommand()
