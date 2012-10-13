@@ -1,6 +1,7 @@
 from unittest import TestCase
 from github3 import issue
 from gh.util import tc
+from gh.base import main_parser
 from gh.commands.issues import IssuesCommand
 import sys
 import os
@@ -27,7 +28,6 @@ class TestIssuesCommand(TestCase):
         out = self.command.format_short_issue(self.issue)
         assert tc['default'] in out
         assert tc['bold'] in out
-        assert tc['underline'] in out
         assert 'sigmavirus24' in out
         assert '30' in out
 
@@ -36,7 +36,7 @@ class TestIssuesCommand(TestCase):
         long = self.command.format_long_issue(self.issue)
         assert short in long
 
-    def test_single_issue(self):
-        assert self.command.single_issue(30, self.opts, []) == 0
-        assert self.command.single_issue(30, self.opts, ['comments']) == 0
-        assert self.command.single_issue(30, self.opts, ['commands']) == 1
+    def test_run(self):
+        opts, args = main_parser.parse_args(['issues', '30', 'comments'])
+        assert self.command.run(opts, args[1:]) == 0
+        assert self.command.run(opts, ['foo']) == -1
