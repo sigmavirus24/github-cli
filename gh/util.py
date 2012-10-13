@@ -1,5 +1,6 @@
 from textwrap import TextWrapper
 from re import compile
+from tempfile import NamedTemporaryFile
 import os
 
 
@@ -54,6 +55,21 @@ def github_config():
     config = os.path.join(home, '.githubconfig')
     return config
 
+
+def trim_numbers(number):
+    if number.startswith('#'):
+        return number[1:]
+    return number
+
+
+def mktmpfile(prefix='gh-'):
+    return NamedTemporaryFile(prefix=prefix, delete=False)
+
+
+def rmtmpfile(name):
+    if name:
+        os.remove(name)
+
 # terminal accents
 tc = {
     'bold': "\033[1m",
@@ -62,3 +78,4 @@ tc = {
     }
 
 wrap = TextWrapper(width=72, replace_whitespace=False).wrap
+sep = '-' * 78
