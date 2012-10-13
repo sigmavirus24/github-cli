@@ -38,5 +38,5 @@ class TestIssuesCommand(TestCase):
 
     def test_run(self):
         opts, args = main_parser.parse_args(['issues', '30', 'comments'])
-        assert self.command.run(opts, args[1:]) == 0
-        assert self.command.run(opts, ['foo']) == -1
+        assert self.command.run(opts, args[1:]) == self.command.SUCCESS
+        assert self.command.run(opts, ['foo']) == self.command.UNKNOWN_COMMAND
