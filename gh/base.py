@@ -2,7 +2,7 @@ from abc import abstractmethod, ABCMeta
 from optparse import OptionParser
 from github3 import GitHub
 from getpass import getpass
-from gh.util import get_repository_tuple, github_config
+from gh.util import github_config
 from gh.compat import input, ConfigParser
 import sys
 import os
@@ -16,6 +16,9 @@ class Command(object):
     usage = None
     repository = ()
     subcommands = {}
+    SUCCESS = 0
+    FAILURE = 1
+    COMMAND_UNKNOWN = 127
 
     def __init__(self):
         super(Command, self).__init__()
@@ -26,15 +29,12 @@ class Command(object):
 
     @abstractmethod
     def run(self, options, args):
-        return None
+        return self.FAILURE
 
     def get_repo(self, options):
         self.repo = None
         if self.repository:
             self.repo = self.gh.repository(*self.repository)
-
-        if not self.repository and options.loc_aware:
-            self.repo = self.gh.repository(*get_repository_tuple())
 
         if not (self.repo or options.loc_aware):
             self.parser.error('A repository is required.')
