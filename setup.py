@@ -49,6 +49,7 @@ setup(
     install_requires=requires,
     test_requires=requires,
     test_suite='run_tests.main',
+    entry_points=entry_pt,
     classifiers=[
         'Environment :: Console',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
