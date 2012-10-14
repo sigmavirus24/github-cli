@@ -12,6 +12,8 @@ class PullsCommand(Command):
     subcommands = {
             '[#]num': 'Print full information about specified pull request',
             '[#]num comments': 'Print comments on specified pull request',
+            '[#]num close': 'Close this pull request',
+            '[#]num reopen': 'Re-open this pull request',
             }
 
     def __init__(self):
@@ -55,6 +57,10 @@ class PullsCommand(Command):
             status = self.print_pull(number)
         elif subcmd == 'comments':
             status = self.print_comments(number)
+        elif subcmd == 'close':
+            status = self.close(number)
+        elif subcmd == 'reopen':
+            status = self.reopen(number)
 
         return status
 
@@ -109,5 +115,22 @@ class PullsCommand(Command):
                 uline=tc['underline'], default=tc['default']))
 
         return self.SUCCESS
+
+    def close(self, number):
+        self.login()
+        owner, repo = self.repository
+        p = self.gh.pull_request(owner, repo, number)
+        if p and p.close():
+            return self.SUCCESS
+        return self.FAILURE
+
+    def reopen(self, number):
+        self.login()
+        owner, repo = self.repository
+        p = self.gh.pull_request(owner, repo, number)
+        if p and p.reopen():
+            return self.SUCCESS
+        return self.FAILURE
+
 
 PullsCommand()
