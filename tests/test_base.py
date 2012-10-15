@@ -1,5 +1,6 @@
 from unittest import TestCase
-from gh.base import Command, CustomOptionParser, load_command, commands
+from gh.base import (Command, CustomOptionParser, load_command, commands,
+        main_parser)
 import sys
 
 
@@ -48,3 +49,7 @@ class TestBase(TestCase):
         load_command(self.command)
         assert self.command in commands, ('{0} not in '
                 'commands dict'.format(self.command))
+
+    def test_main_parser(self):
+        opts, args = main_parser.parse_args(['--fake'])
+        assert ['--fake'] == args
