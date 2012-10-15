@@ -51,5 +51,5 @@ class TestBase(TestCase):
                 'commands dict'.format(self.command))
 
     def test_main_parser(self):
-        opts, args = main_parser.parse_args(['--fake'])
-        assert ['--fake'] == args
+        opts, args = main_parser.parse_args(['-h'])
+        assert opts.help == True
