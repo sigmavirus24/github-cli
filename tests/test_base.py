@@ -52,4 +52,4 @@ class TestBase(TestCase):
 
     def test_main_parser(self):
         opts, args = main_parser.parse_args(['-h'])
-        assert opts.help == True
+        assert opts.help is True
