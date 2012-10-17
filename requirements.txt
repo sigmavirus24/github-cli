@@ -1,1 +1,2 @@
 git+git://github.com/sigmavirus24/github3.py.git
+mock>=1.0.0

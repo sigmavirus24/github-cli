@@ -25,6 +25,7 @@ class Command(object):
         assert self.name
         commands[self.name] = self
         self.gh = GitHub()
+        self.gh.set_user_agent('github-cli/0.0.0 (http://git.io/MEmEmw)')
         self.parser = CustomOptionParser(usage=self.usage)
 
     @abstractmethod
