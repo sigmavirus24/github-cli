@@ -208,17 +208,13 @@ Command Bar Help
 
 The following can be done via the API with certainty:
 
-- 1-4
-
-- 6-11
+- 1-11
 
 - 14-15
 
 - 17-18
 
 Why the rest are possibly not easily done via the API:
-
-- 5 is likely undoable because there is no API for notifications
 
 - 12 shows the branch, we could checkout said branch if we're in the 
   repository but why replace the trusty: ``git checkout branch``?
