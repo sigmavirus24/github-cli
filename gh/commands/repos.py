@@ -42,7 +42,15 @@ class ReposCommand(Command):
                                help='Number of repositories to list',
                                type='int',
                                default=-1,
-                               nargs=1
+                               nargs=1,
+                               )
+        self.parser.add_option('-o', '--organization',
+                               dest='organization',
+                               help=('Organization to create this repository '
+                                     'under'),
+                               type='str',
+                               default='',
+                               nargs=1,
                                )
 
     def run(self, options, args):
@@ -62,7 +70,7 @@ class ReposCommand(Command):
             return self.COMMAND_UNKNOWN
 
         if cmd == 'create':
-            self.create(args)
+            self.create(opts, args)
 
     def print_repos(self, opts):
         kwargs = {
@@ -83,7 +91,7 @@ class ReposCommand(Command):
 
         return self.SUCCESS
 
-    def create(self, args):
+    def create(self, opts, args):
         status = self.SUCCESS
         org = None
         repo = None
@@ -97,8 +105,8 @@ class ReposCommand(Command):
 
         self.login()
 
-        if args:
-            org = self.gh.organization(args.pop(0))
+        if opts.organization:
+            org = self.gh.organization(opts.organization)
 
         conf = {}
         conf['description'] = input('Description: ')
