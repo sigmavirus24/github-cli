@@ -73,8 +73,8 @@ class Command(object):
             # Get an authorization for this
             auth = self.gh.authorize(user, pw, ['user', 'repo', 'gist'],
                                      'github-cli',
-                                     'https://github.com/sigmavirus24/'
-                                     'github-cli')
+                                     'http://git.io/MEmEmw'
+                                     )
             parser.add_section('github')
             parser.set('github', 'token', auth.token)
             self.gh.login(token=auth.token)
