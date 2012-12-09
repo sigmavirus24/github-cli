@@ -6,32 +6,33 @@ from github3 import GitHubError
 class PullsCommand(Command):
     name = 'pulls'
     usage = ('%prog [options] [user/repo] pulls [options] [number]'
-            ' [sub-command]')
+             ' [sub-command]')
     summary = 'Interact with the Pull Requests API'
     fs = ('#{bold}{0.number}{default} {0.title:.36} - @{u.login}')
     subcommands = {
-            '[#]num': 'Print full information about specified pull request',
-            '[#]num comments': 'Print comments on specified pull request',
-            '[#]num close': 'Close this pull request',
-            '[#]num reopen': 'Re-open this pull request',
-            }
+        '[#]num': 'Print full information about specified pull request',
+        '[#]num comments': 'Print comments on specified pull request',
+        '[#]num close': 'Close this pull request',
+        '[#]num reopen': 'Re-open this pull request',
+        '[#]num merge': 'Merge this pull request',
+    }
 
     def __init__(self):
         super(PullsCommand, self).__init__()
         self.parser.add_option('-s', '--state',
-                dest='state',
-                help='State of the pull request.',
-                choices=('open', 'closed'),
-                default='open',
-                nargs=1,
-                )
+                               dest='state',
+                               help='State of the pull request.',
+                               choices=('open', 'closed'),
+                               default='open',
+                               nargs=1,
+                               )
         self.parser.add_option('-n', '--number',
-                dest='number',
-                help='Number of pulls to list',
-                type='int',
-                nargs=1,
-                default=-1,
-                )
+                               dest='number',
+                               help='Number of pulls to list',
+                               type='int',
+                               default=-1,
+                               nargs=1,
+                               )
 
     def run(self, options, args):
         self.get_repo(options)
@@ -61,22 +62,32 @@ class PullsCommand(Command):
             status = self.close(number)
         elif subcmd == 'reopen':
             status = self.reopen(number)
+        elif subcmd == 'merge':
+            status = self.merge(number, args)
 
         return status
 
     def format_short_pull(self, pull):
         return self.fs.format(pull, u=pull.user, bold=tc['bold'],
-                default=tc['default'])
+                              default=tc['default'])
 
-    def get_pull(self, number):
+    def get_pull(self, number, with_auth=False):
         pull = None
+        if with_auth:
+            self.login()
+            owner, repo = str(self.repo).split('/')
+
         try:
-            pull = self.repo.pull_request(number)
+            if with_auth:
+                pull = self.gh.pull_request(owner, repo, number)
+            else:
+                pull = self.repo.pull_request(number)
         except GitHubError as ghe:
             if ghe.code == 404:
                 print("There is no pull request #{0} on {1}/{2}.".format(
                     number, *self.repository))
             raise ghe
+
         return pull
 
     def print_pull(self, number):
@@ -85,7 +96,7 @@ class PullsCommand(Command):
             return self.FAILURE
 
         header = self.format_short_pull(pull)
-        body = '\n'.join(wrap(pull.body_text))
+        body = wrap(pull.body_text)
         print('{0}\n{1}\n{2}\n'.format(header, sep, body))
         print('{0}Files modified:{1}'.format(tc['underline'], tc['default']))
         self.print_files(pull)
@@ -100,7 +111,7 @@ class PullsCommand(Command):
     def print_files(self, pull):
         for f in pull.iter_files():
             print('  {0}: +{1}/-{2}'.format(f.filename, f.additions,
-                f.deletions))
+                                            f.deletions))
 
     def print_comments(self, number):
         pull = self.get_pull(number)
@@ -112,23 +123,25 @@ class PullsCommand(Command):
             body = '\n'.join(wrap(c.body_text))
             date = c.created_at.strftime('%Y-%m-%d %H:%M:%S')
             print(fs.format(u=c.user, date=date, body=body,
-                uline=tc['underline'], default=tc['default']))
+                            uline=tc['underline'], default=tc['default']))
 
         return self.SUCCESS
 
     def close(self, number):
-        self.login()
-        owner, repo = self.repository
-        p = self.gh.pull_request(owner, repo, number)
+        p = self.get_pull(number, True)
         if p and p.close():
             return self.SUCCESS
         return self.FAILURE
 
     def reopen(self, number):
-        self.login()
-        owner, repo = self.repository
-        p = self.gh.pull_request(owner, repo, number)
+        p = self.get_pull(number, True)
         if p and p.reopen():
+            return self.SUCCESS
+        return self.FAILURE
+
+    def merge(self, number, args):
+        p = self.get_pull(number, True)
+        if p and p.merge(' '.join(args)):
             return self.SUCCESS
         return self.FAILURE
 

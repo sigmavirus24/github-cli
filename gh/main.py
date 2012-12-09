@@ -11,7 +11,7 @@ def main():
 
     if not args:
         main_parser.error('You must provide a command. '
-            '(Use `gh help` to see a list of commands)')
+                          '(Use `gh help` to see a list of commands)')
 
     repository = ()
     if '/' in args[0]:
@@ -24,6 +24,7 @@ def main():
     command = args[0].lower()
     load_command(command)
     status = 1
+
     if command in commands:
         commands[command].repository = repository
         status = commands[command].run(opts, args[1:])

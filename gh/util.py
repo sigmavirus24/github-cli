@@ -11,8 +11,8 @@ def get_repository_tuple():
     """
     # If there are multiple remotes, this could choose the wrong one
     reg = compile(
-            '(?:https://|git@)github\.com(?::|/)([^\./-]*)/(.*)'
-            )
+        '(?:https://|git@)github\.com(?::|/)([^\./-]*)/(.*)'
+    )
     config = find_git_config()
     r = ()
     if config:
@@ -75,7 +75,18 @@ tc = {
     'bold': "\033[1m",
     'default': "\033[0m",
     'underline': "\033[0;4m",
-    }
+}
 
-wrap = TextWrapper(width=72, replace_whitespace=False).wrap
+
+def wrap(text):
+    if hasattr(wrap, 'tw'):
+        tw = wrap.tw
+    else:
+        tw = TextWrapper(width=72, replace_whitespace=False)
+
+    paragraphs = [p.replace('\n', ' ') for p in text.split('\n\n')]
+    paragraphs = ['\n'.join(tw.wrap(p)) for p in paragraphs]
+    return '\n\n'.join(paragraphs)
+
+
 sep = '-' * 78

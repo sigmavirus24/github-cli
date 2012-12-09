@@ -72,29 +72,33 @@ Also, I'm hoping to absorb some of `command bar`_'s functionality.
         the two options but with an extra acceptable value for ``page`` -- 
         "all". Any and all input is very welcome.
 
-  + List/create comments on an issue
+  + List/create comments on an issue [Done]
 
-  + Close/reopen an issue
+  + Close/reopen an issue [Done]
 
   + Add/remove assignees, labels and milestones
 
 - Manage pull requests
 
-  + List pull requests
+  + List pull requests [Changed]
 
     ::
 
         $ gh github3.py list pulls [closed|open|all]
 
-  + Display contents of a pull request
+  + Display contents of a pull request [Done]
 
     ::
 
         $ gh github3.py pull 14
 
-  + List/create comments on a pull request
+  + List comments on a pull request [Done]
 
-  + Close/reopen/merge a pull request
+  + Create comments on a pull request [Cancelled]
+
+    - This is actually meant to be performed via the Issue Comments API
+
+  + Close/reopen/merge a pull request [Done]
 
 - Manage repositories
 

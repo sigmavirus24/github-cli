@@ -1,6 +1,6 @@
 from unittest import TestCase
 from gh.base import (Command, CustomOptionParser, load_command, commands,
-        main_parser)
+                     main_parser)
 import sys
 
 

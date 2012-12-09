@@ -7,4 +7,4 @@ except NameError:
 try:
     from ConfigParser import ConfigParser
 except ImportError:
-    from configparser import ConfigParser
+    from configparser import ConfigParser  # NOQA
