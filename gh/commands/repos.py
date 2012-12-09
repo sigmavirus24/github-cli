@@ -6,7 +6,7 @@ from github3.users import User
 
 class ReposCommand(Command):
     name = 'repos'
-    usage = ('%prog [options] repos [login] [options] [sub-command]')
+    usage = ('%prog [options] repos [options] [login] [sub-command]')
     summary = ('Interact with the Repositories API')
     fs = ("{d[bold]}{0.name}{d[default]} -- {1:.50}")
     subcommands = {
@@ -91,7 +91,8 @@ class ReposCommand(Command):
         try:
             name = args.pop(0)
         except IndexError:
-            print("You must provide a name for your new repository")
+            self.parser.error("You must provide a name for your new "
+                              "repository")
             return self.FAILURE
 
         self.login()
