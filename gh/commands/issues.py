@@ -71,7 +71,7 @@ class IssuesCommand(Command):
         if not args[0].isdigit():
             return self.COMMAND_UNKNOWN
 
-        status = self.SUCCESS
+        status = self.COMMAND_UNKNOWN
         number = args.pop(0)
 
         subcommand = None
@@ -91,8 +91,6 @@ class IssuesCommand(Command):
             status = self.reopen_issue(number)
         elif args and ('assign' == subcommand):
             self.assign(number, args[0])
-        else:
-            status = self.COMMAND_UNKNOWN
 
         return status
 

@@ -164,7 +164,7 @@ class MyCommand(Command):
         self.login()
 
         cmd = args.pop(0)
-        status = self.SUCCESS
+        status = self.COMMAND_UNKNOWN
 
         if cmd == 'dashboard':
             status = self.dashboard()
@@ -174,8 +174,6 @@ class MyCommand(Command):
             status = self.issues()
         elif cmd == 'stars':
             status = self.stars()
-        else:
-            status = self.COMMAND_UNKNOWN
 
         return status
 
