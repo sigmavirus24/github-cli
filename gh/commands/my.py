@@ -174,6 +174,8 @@ class MyCommand(Command):
             status = self.issues()
         elif cmd == 'stars':
             status = self.stars()
+        elif cmd == 'profile':
+            status = self.profile()
 
         return status
 
@@ -212,6 +214,33 @@ class MyCommand(Command):
                 'repo': '/'.join(i.repository),
             }
             print(self.issue_fs.format(tc, **issue))
+
+        return self.SUCCESS
+
+    def profile(self):
+        u = self.gh.user()
+        print('{0[bold]}{1} -- {1.name}{0[default]}'.format(tc, u))
+        print('  Joined: {0}'.format(u.created_at.strftime('%Y-%m-%d')))
+        print('  email: {0}'.format(u.email))
+        print('  Followers: {0}'.format(u.followers))
+        print('  Following: {0}'.format(u.following))
+        print('  Public repos: {0}'.format(u.public_repos))
+        print('  Public gists: {0}'.format(u.public_gists))
+
+        if u.blog:
+            print('  Website: {0}'.format(u.blog))
+
+        if u.owned_private_repos > 0:
+            print('  Owned private repos: {0}'.format(u.owned_private_repos))
+
+        if u.total_private_repos > 0:
+            print('  Total private repos: {0}'.format(u.total_private_repos))
+
+        if u.total_private_gists > 0:
+            print('  Total private gists: {0}'.format(u.total.private_gists))
+
+        if u.hireable:
+            print('  For hire')
 
         return self.SUCCESS
 

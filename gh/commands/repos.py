@@ -10,7 +10,7 @@ class ReposCommand(Command):
     summary = ('Interact with the Repositories API')
     fs = ("{d[bold]}{0.name}{d[default]} -- {1:.50}")
     subcommands = {
-        'create [name] [org]': 'Create a new repository with given name',
+        'create [name]': 'Create a new repository with given name',
     }
     commands = set(['create'])
 
