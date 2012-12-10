@@ -1,62 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
     <title>Github-cli by sigmavirus24</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/sigmavirus24/github-cli">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/sigmavirus24/github-cli/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/sigmavirus24/github-cli/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <header>
-      <div class="container">
-        <h1>Github-cli</h1>
-        <h2>Command-line access to GitHub via the API (v3)</h2>
+    <div class="wrapper">
 
-        <section id="downloads">
-          <a href="https://github.com/sigmavirus24/github-cli/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/sigmavirus24/github-cli/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/sigmavirus24/github-cli" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <section>
+        <div id="title">
+          <h1>Github-cli</h1>
+          <p>Command-line access to GitHub via the API (v3)</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/sigmavirus24">sigmavirus24</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
 
-    <div class="container">
-      <section id="main_content">
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>github-cli</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p><img src="https://secure.travis-ci.org/sigmavirus24/github-cli.png?branch=master" alt="Build Status"></p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>This tool provides partial itneraction with GitHub and its API from the 
+command line. This tool is far from complete or comprehensive.</p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li><p><a href="https://github.com/sigmavirus24/github3.py">github3.py</a></p></li>
+<li><p><a href="https://github.com/kennethreitz/requests">requests</a> (required for 
+github3.py)</p></li>
+</ul><h2>Current Usage</h2>
+
+<p>To get a comprehensive look at the following commands, use their help pages 
+like below.</p>
+
+<h3>help</h3>
+
+<pre><code>$ gh help
+# Alternatively gh -h
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<pre><code>$ gh help follow
+$ gh help fork
+$ gh help gists
+$ gh help issues
+$ gh help my
+$ gh help pulls
+$ gh help repos
+$ gh help unfollow
+</code></pre>
 
-<h3>Designer Templates</h3>
+<h3>follow</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<pre><code>$ gh follow kennethreitz
+$ gh follow sigmavirus24
+</code></pre>
 
-<h3>Rather Drive Stick?</h3>
+<h3>fork</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<pre><code>$ gh fork kennethreitz/requests
+$ gh fork sigmavirus24/github3.py
+$ gh fork sigmavirus24/github-cli
+</code></pre>
 
-<h3>Authors and Contributors</h3>
+<h3>gists</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<pre><code>$ gh gists
+$ gh gists -u sigmavirus24
+$ gh gists create -d "Public gist" file1.rb file2.rb file3.rb
+$ gh gists create -p -d "Private gist" file1.py file2.py file3.py
+</code></pre>
 
-<h3>Support or Contact</h3>
+<h3>issues</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code>$ cd path/to/repo/on/GitHub
+$ gh issues
+$ gh sigmavirus24/github3.py issues
+$ gh sigmavirus24/github3.py issues 48
+$ gh issues 48 close
+$ gh issues 48 reopen
+$ gh issues 48 comment
+$ gh issues 48 comments
+</code></pre>
+
+<h3>my</h3>
+
+<pre><code>$ gh my notifications
+$ gh my dashboard
+$ gh my issues
+$ gh my stars
+$ gh my profile
+</code></pre>
+
+<h3>pulls</h3>
+
+<pre><code>$ cd path/to/repo/on/GitHub
+$ gh pulls
+$ gh pulls 48 merge
+$ gh pulls 48 close
+$ gh pulls 48 comments
+</code></pre>
+
+<h3>repos</h3>
+
+<pre><code>$ gh repos
+$ gh repos create new_repo
+$ gh repos -o orgname create new_repo
+</code></pre>
+
+<h3>unfollow</h3>
+
+<pre><code>$ gh unfollow sigmavirus24
+</code></pre>
+
+<h2>Design</h2>
+
+<p>Take a look at 
+<a href="https://github.com/sigmavirus24/github-cli/blob/master/design.rst">design.rst</a>.</p>
+
+<h2>License</h2>
+
+<p><img src="http://gplv3.fsf.org/gplv3-127x51.png" alt="GPLv3"></p>
       </section>
-    </div>
 
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
