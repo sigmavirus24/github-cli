@@ -21,6 +21,9 @@ class ForkCommand(Command):
         opts, args = self.parser.parse_args(args)
         self.login()
 
+        if opts.help:
+            self.help()
+
         if not args or '/' not in args[0]:
             self.parser.error('You must provide a repository name')
             return self.FAILURE

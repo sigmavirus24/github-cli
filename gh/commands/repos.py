@@ -55,6 +55,10 @@ class ReposCommand(Command):
 
     def run(self, options, args):
         opts, args = self.parser.parse_args(args)
+
+        if opts.help:
+            self.help()
+
         if opts.sort == 'name':
             opts.sort = 'full_name'
 

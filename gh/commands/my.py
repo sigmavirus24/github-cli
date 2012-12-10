@@ -1,4 +1,5 @@
 from gh.base import Command
+from gh.util import tc
 
 
 class MyCommand(Command):
@@ -9,20 +10,53 @@ class MyCommand(Command):
         'dashboard': 'Print your received events',
         'issues': 'Print your issues',
         'notifications': 'Print your notifications',
-        'pulls': 'Print your pull requests',
         'stars': 'Print your stars',
     }
-    event_fs = '{date} {by} {event}'
+    issue_fs = '#{0[bold]}{num}{0[default]} {title:.36} - ({repo})'
+    event_fs = '{date} {0[bold]}{by}{0[default]} {event}'
+    thread_fs = ('{updated} [{0[bold]}{type}{0[default]}] {subject:.36} '
+                 '({repo})')
 
     def __init__(self):
         super(MyCommand, self).__init__()
-        self.parser.add_option('-n', '--number',
-                               dest='number',
-                               help='Number of items to print at most',
-                               type='int',
-                               default=20,
-                               nargs=1,
-                               )
+        add = self.parser.add_option
+        add('-n', '--number',
+            dest='number',
+            help='Number of items to print at most',
+            type='int',
+            default=20,
+            nargs=1,
+            )
+        add('-f', '--filter',
+            dest='filter',
+            help='How to filter your issues',
+            choices=('assigned', 'created', 'mentioned', 'subscribed'),
+            nargs=1,
+            )
+        add('-s', '--state',
+            dest='state',
+            help='State of the issues',
+            choices=('open', 'closed'),
+            nargs=1,
+            )
+        add('-l', '--labels',
+            dest='labels',
+            help='Comma-separated list of labels',
+            type='str',
+            nargs=1,
+            )
+        add('-d', '--direction',
+            dest='direction',
+            help='Direction to display the issues',
+            choices=('asc', 'desc'),
+            nargs=1,
+            )
+        add('-S', '--since',
+            dest='since',
+            help='ISO 8601 formatted date to cut off issues',
+            type='str',
+            nargs=1,
+            )
 
     def _event_handler(self, event):
         if event.type == 'CommitCommentEvent':
@@ -120,6 +154,9 @@ class MyCommand(Command):
     def run(self, options, args):
         self.opts, args = self.parser.parse_args(args)
 
+        if self.opts.help:
+            self.help()
+
         if not args:
             self.parser.error('No command given.')
             return self.FAILURE
@@ -131,6 +168,14 @@ class MyCommand(Command):
 
         if cmd == 'dashboard':
             status = self.dashboard()
+        elif cmd == 'notifications':
+            status = self.notifications()
+        elif cmd == 'issues':
+            status = self.issues()
+        elif cmd == 'stars':
+            status = self.stars()
+        else:
+            status = self.COMMAND_UNKNOWN
 
         return status
 
@@ -143,7 +188,38 @@ class MyCommand(Command):
                 'by': e.actor.login,
                 'event': self._event_handler(e)
             }
-            print(self.event_fs.format(**event))
+            print(self.event_fs.format(tc, **event))
+
+        return self.SUCCESS
+
+    def notifications(self):
+        for n in self.gh.iter_notifications(number=self.opts.number):
+            thread = {
+                'updated': n.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+                'repo': n.repository,
+                'subject': n.subject['title'],
+                'type': n.subject['type'],
+            }
+            print(self.thread_fs.format(tc, **thread))
+
+        return self.SUCCESS
+
+    def issues(self):
+        o = self.opts
+        for i in self.gh.iter_issues(o.filter, o.state, o.labels, o.sort,
+                                     o.direction, o.since, o.number):
+            issue = {
+                'num': i.number,
+                'title': i.title,
+                'repo': '/'.join(i.repository),
+            }
+            print(self.issue_fs.format(tc, **issue))
+
+        return self.SUCCESS
+
+    def stars(self):
+        for r in self.gh.iter_starred(number=self.opts.number):
+            print('{0}'.format(r))
 
         return self.SUCCESS
 

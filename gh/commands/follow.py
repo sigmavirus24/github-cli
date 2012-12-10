@@ -10,8 +10,12 @@ class FollowCommand(Command):
         super(FollowCommand, self).__init__()
 
     def run(self, options, args):
+        opts, args = self.parser.parse_args(args)
         status = self.SUCCESS
         self.login()
+
+        if opts.help:
+            self.help()
 
         if not args:
             for u in self.gh.iter_following():

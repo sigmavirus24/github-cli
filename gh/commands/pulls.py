@@ -39,6 +39,9 @@ class PullsCommand(Command):
 
         opts, args = self.parser.parse_args(args)
 
+        if opts.help:
+            self.help()
+
         if not args:
             return self.print_pulls(opts)
 

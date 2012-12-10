@@ -28,6 +28,10 @@ class Command(object):
         self.gh = GitHub()
         self.gh.set_user_agent('github-cli/0.0.0 (http://git.io/MEmEmw)')
         self.parser = CustomOptionParser(usage=self.usage)
+        self.parser.add_option('-h', '--help',
+                               dest='help',
+                               action='store_true',
+                               help='Show help')
 
     @abstractmethod
     def run(self, options, args):
@@ -88,6 +92,7 @@ class Command(object):
                 print('  {0}:\n\t{1}'.format(
                     command, self.subcommands[command]
                 ))
+        sys.exit(0)
 
 
 class CustomOptionParser(OptionParser):
