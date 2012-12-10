@@ -20,15 +20,12 @@ Current Usage
 To get a comprehensive look at the following commands, use their help pages 
 like below.
 
-help
-~~~~
-
+### help
 
 ```
 $ gh help
 # Alternatively gh -h
 ```
-
 
 ```
 $ gh help follow
@@ -41,16 +38,14 @@ $ gh help repos
 $ gh help unfollow
 ```
 
-follow
-~~~~~~
+### follow
 
 ```
 $ gh follow kennethreitz
 $ gh follow sigmavirus24
 ```
 
-fork
-~~~~
+### fork
 
 ```
 $ gh fork kennethreitz/requests
@@ -58,8 +53,7 @@ $ gh fork sigmavirus24/github3.py
 $ gh fork sigmavirus24/github-cli
 ```
 
-gists
-~~~~~
+### gists
 
 ```
 $ gh gists
@@ -68,8 +62,7 @@ $ gh gists create -d "Public gist" file1.rb file2.rb file3.rb
 $ gh gists create -p -d "Private gist" file1.py file2.py file3.py
 ```
 
-issues
-~~~~~~
+### issues
 
 ```
 $ cd path/to/repo/on/GitHub
@@ -82,8 +75,7 @@ $ gh issues 48 comment
 $ gh issues 48 comments
 ```
 
-my
-~~
+### my
 
 ```
 $ gh my notifications
@@ -93,8 +85,7 @@ $ gh my stars
 $ gh my profile
 ```
 
-pulls
-~~~~~
+### pulls
 
 ```
 $ cd path/to/repo/on/GitHub
@@ -104,8 +95,7 @@ $ gh pulls 48 close
 $ gh pulls 48 comments
 ```
 
-repos
-~~~~~
+### repos
 
 ```
 $ gh repos
@@ -113,8 +103,7 @@ $ gh repos create new_repo
 $ gh repos -o orgname create new_repo
 ```
 
-unfollow
-~~~~~~~~
+### unfollow
 
 ```
 $ gh unfollow sigmavirus24
