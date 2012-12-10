@@ -6,8 +6,9 @@ github-cli
     :alt: Build Status
     :target: http://travis-ci.org/sigmavirus24/github-cli
 
-Currently, this is just an idea, but this tool will provide comprehensive 
-interaction with GitHub from the commandline via the API.
+ 
+This tool provides partial itneraction with GitHub and its API from the 
+command line. This tool is far from complete or comprehensive.
 
 Dependencies
 ------------
@@ -15,11 +16,6 @@ Dependencies
 - github3.py_
 
 - requests_ (required for github3.py)
-
-Design
-------
-
-Take a look at design.rst_\ .
 
 Current Usage
 -------------
@@ -124,6 +120,11 @@ unfollow
 ::
 
     $ gh unfollow sigmavirus24
+
+Design
+------
+
+Take a look at design.rst_\ .
 
 License
 -------
