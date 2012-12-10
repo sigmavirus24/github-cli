@@ -4,6 +4,7 @@ from github3 import GitHub
 from getpass import getpass
 from gh.util import github_config
 from gh.compat import input, ConfigParser
+from gh import __version__
 import sys
 import os
 
@@ -26,7 +27,9 @@ class Command(object):
         assert self.name
         commands[self.name] = self
         self.gh = GitHub()
-        self.gh.set_user_agent('github-cli/0.0.0 (http://git.io/MEmEmw)')
+        self.gh.set_user_agent('github-cli/{0} (http://git.io/MEmEmw)'.format(
+            __version__
+        ))
         self.parser = CustomOptionParser(usage=self.usage)
         self.parser.add_option('-h', '--help',
                                dest='help',

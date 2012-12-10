@@ -11,7 +11,7 @@ __title__ = 'gh'
 __author__ = 'Ian Cordasco'
 __license__ = 'GPLv3'
 __copyright__ = 'Copyright 2012 Ian Cordasco'
-__version__ = '0.0.0'
+__version__ = '0.1.0'
 
 
-from gh.main import main
+from gh.main import main  # NOQA
