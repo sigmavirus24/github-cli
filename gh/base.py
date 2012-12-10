@@ -31,10 +31,6 @@ class Command(object):
             __version__
         ))
         self.parser = CustomOptionParser(usage=self.usage)
-        self.parser.add_option('-h', '--help',
-                               dest='help',
-                               action='store_true',
-                               help='Show help')
 
     @abstractmethod
     def run(self, options, args):
@@ -103,13 +99,15 @@ class CustomOptionParser(OptionParser):
         kwargs.update(add_help_option=False)
         OptionParser.__init__(self, *args, **kwargs)
         self.disable_interspersed_args()
+        self.add_option('-h', '--help',
+                        dest='help',
+                        action='store_true',
+                        help='Show help',
+                        default=False,
+                        )
 
 
 main_parser = CustomOptionParser('%prog [options] [sub-command(s)]')
-main_parser.add_option('-h', '--help',
-                       dest='help',
-                       action='store_true',
-                       help='Show help')
 
 main_parser.add_option('-u', '--basic-auth',
                        dest='basic_auth',

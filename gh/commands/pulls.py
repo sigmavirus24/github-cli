@@ -49,7 +49,7 @@ class PullsCommand(Command):
         args[0] = trim_numbers(args[0])
 
         if args[0].lower() == 'create':
-            status = self.create(args[1:])
+            return self.create(args[1:])
 
         if not args[0].isdigit():
             return self.COMMAND_UNKNOWN
@@ -92,6 +92,10 @@ class PullsCommand(Command):
                           nargs=1,
                           )
         opts, args = parser.parse_args(args)
+
+        if opts.help:
+            parser.print_help()
+            return self.SUCCESS
 
         if opts.issue < 1 and not (opts.title and len(args) >= 2):
             parser.error('Invalid create call')
