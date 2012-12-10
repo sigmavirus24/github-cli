@@ -1,4 +1,4 @@
-from gh.base import Command
+from gh.base import Command, CustomOptionParser
 from gh.util import tc, trim_numbers, sep, wrap
 from github3 import GitHubError
 
@@ -15,6 +15,7 @@ class PullsCommand(Command):
         '[#]num close': 'Close this pull request',
         '[#]num reopen': 'Re-open this pull request',
         '[#]num merge': 'Merge this pull request',
+        '[#]num create [options]': 'Create a pull request',
     }
 
     def __init__(self):
@@ -47,10 +48,13 @@ class PullsCommand(Command):
 
         args[0] = trim_numbers(args[0])
 
+        if args[0].lower() == 'create':
+            status = self.create(args[1:])
+
         if not args[0].isdigit():
             return self.COMMAND_UNKNOWN
 
-        status = self.SUCCESS
+        status = self.COMMAND_UNKNOWN
         number = args.pop(0)
 
         subcmd = None
@@ -69,6 +73,41 @@ class PullsCommand(Command):
             status = self.merge(number, args)
 
         return status
+
+    def create(self, args):
+        parser = CustomOptionParser()
+        parser.set_usage('%prog [options] pulls create [options] base head')
+        parser.add_option('-i', '--from-issue',
+                          dest='issue',
+                          help='Create the pull from issue provided',
+                          type='int',
+                          default=-1,
+                          nargs=1,
+                          )
+        parser.add_option('-t', '--title',
+                          dest='title',
+                          help='Title for a new pull request',
+                          type='str',
+                          default='',
+                          nargs=1,
+                          )
+        opts, args = parser.parse_args(args)
+
+        if opts.issue < 1 and not (opts.title and len(args) >= 2):
+            parser.error('Invalid create call')
+            parser.print_help()
+            return self.FAILURE
+
+        self.login()
+        if opts.issue >= 1:
+            pr = self.repo.create_pull_from_issue(args[0], args[1])
+        elif opts.title:
+            pr = self.repo.create_pull(opts.title, args[0], args[1])
+
+        if pr:
+            return self.SUCCESS
+
+        return self.FAILURE
 
     def format_short_pull(self, pull):
         return self.fs.format(pull, u=pull.user, bold=tc['bold'],
