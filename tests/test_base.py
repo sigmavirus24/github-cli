@@ -19,7 +19,8 @@ class TestCommand(TestCase):
 class TestCustomOptionParser(TestCase):
     def test_help(self):
         c = CustomOptionParser()
-        assert c.has_option('-h') is False
+        assert c.has_option('-h') is True
+        assert c.defaults == {'help': False}
 
 
 class TestBase(TestCase):
@@ -47,8 +48,8 @@ class TestBase(TestCase):
     def test_commands(self):
         assert self.command not in commands
         load_command(self.command)
-        assert self.command in commands, ('{0} not in '
-                'commands dict'.format(self.command))
+        error = '{0} not in commands dict'.format(self.command)
+        assert self.command in commands, error
 
     def test_main_parser(self):
         opts, args = main_parser.parse_args(['-h'])
