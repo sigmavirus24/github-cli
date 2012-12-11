@@ -81,6 +81,7 @@ class IssuesCommand(Command):
         if not subcommand:
             issue = self.repo.issue(number)
             print(self.format_long_issue(issue))
+            status = self.SUCCESS
         elif 'comment' == subcommand:
             status = self.comment_on(number)
         elif 'comments' == subcommand:
