@@ -1,5 +1,4 @@
 import github3
-import json
 from gh.util import tc
 from gh.base import main_parser
 from gh.commands.issues import IssuesCommand
@@ -10,12 +9,11 @@ from mock import patch
 class TestIssuesCommand(BaseTest):
     def __init__(self, methodName='runTest'):
         super(TestIssuesCommand, self).__init__(methodName)
-        self.issue = github3.issues.Issue(json.load(open('tests/json/issue')))
+        self.issue = github3.issues.Issue(self.json('issue'))
         self.command = IssuesCommand()
         self.command.repository = ('sigmavirus24', 'github3.py')
         self.opts, _ = self.command.parser.parse_args([])
-        self.command.repo = github3.repos.Repository(
-            json.load(open('tests/json/issue')))
+        self.command.repo = github3.repos.Repository(self.json('issue'))
 
     def test_format_short_issue(self):
         out = self.command.format_short_issue(self.issue)

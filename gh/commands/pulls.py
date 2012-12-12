@@ -1,6 +1,5 @@
 from gh.base import Command, CustomOptionParser
 from gh.util import tc, trim_numbers, sep, wrap
-from github3 import GitHubError
 
 
 class PullsCommand(Command):
@@ -123,16 +122,10 @@ class PullsCommand(Command):
             self.login()
             owner, repo = str(self.repo).split('/')
 
-        try:
-            if with_auth:
-                pull = self.gh.pull_request(owner, repo, number)
-            else:
-                pull = self.repo.pull_request(number)
-        except GitHubError as ghe:
-            if ghe.code == 404:
-                print("There is no pull request #{0} on {1}/{2}.".format(
-                    number, *self.repository))
-            raise ghe
+        if with_auth:
+            pull = self.gh.pull_request(owner, repo, number)
+        else:
+            pull = self.repo.pull_request(number)
 
         return pull
 
