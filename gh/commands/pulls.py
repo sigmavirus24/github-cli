@@ -14,7 +14,8 @@ class PullsCommand(Command):
         '[#]num close': 'Close this pull request',
         '[#]num reopen': 'Re-open this pull request',
         '[#]num merge': 'Merge this pull request',
-        '[#]num create [options]': 'Create a pull request',
+        '[#]num create [options]': 'Create a pull request from an issue',
+        'create [options]': 'Create a brand new pull request',
     }
 
     def __init__(self):

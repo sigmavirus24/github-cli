@@ -1,4 +1,4 @@
-from gh.base import Command
+from gh.base import Command, CustomOptionParser
 from gh.util import tc, wrap, trim_numbers, mktmpfile, rmtmpfile, sep
 from github3 import GitHubError
 from os import system
@@ -18,6 +18,7 @@ class IssuesCommand(Command):
         '[#]num reopen': 'Reopen this issue',
         '[#]num assign <assignee>': 'Assign this issue to @<assignee>',
         '[#]num comment': 'Comment on this issue using $EDITOR',
+        'create': 'Create a new issue',
     }
 
     def __init__(self):
@@ -68,6 +69,9 @@ class IssuesCommand(Command):
 
         args[0] = trim_numbers(args[0])
 
+        if args[0].lower() == 'create':
+            return self.create(args[1:])
+
         if not args[0].isdigit():
             return self.COMMAND_UNKNOWN
 
@@ -93,6 +97,44 @@ class IssuesCommand(Command):
         elif args and ('assign' == subcommand):
             self.assign(number, args[0])
 
+        return status
+
+    def create(self, args):
+        parser = CustomOptionParser()
+        parser.set_usage('%prog [options] issues create -t TITLE')
+        parser.add_option('-t', '--title',
+                          dest='title',
+                          help='Title for a new issue',
+                          type='str',
+                          default='',
+                          nargs=1,
+                          )
+        opts, args = parser.parse_args(args)
+
+        if opts.help:
+            parser.print_help()
+            return self.SUCCESS
+
+        if not opts.title:
+            parser.error('Invalid create call')
+            parser.print_help()
+            return self.FAILURE
+
+        status = self.SUCCESS
+        self.login()
+        # I need to handle this on Windows too somehow
+        if not expandvars('$EDITOR'):
+            print("$EDITOR not set")
+            return self.FAILURE
+
+        with mktmpfile('gh-newissue-') as fd:
+            name = fd.name
+            system('$EDITOR {0}'.format(fd.name))
+
+        if not self.repo.create_issue(opts.title, open(name).read()):
+            status = self.FAILURE
+
+        rmtmpfile(name)
         return status
 
     # Formatting and printing
