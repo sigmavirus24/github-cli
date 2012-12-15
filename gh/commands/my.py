@@ -137,7 +137,7 @@ class MyCommand(Command):
 
         if event.type == 'PushEvent':
             commits = 'commits' if event.payload['size'] > 1 else 'commit'
-            return 'pushed {0} {1} to {1} on {2}/{3}'.format(
+            return 'pushed {0} {1} to {2} on {3}/{4}'.format(
                 event.payload['size'], commits,
                 event.payload['ref'], *event.repo
             )
@@ -149,7 +149,7 @@ class MyCommand(Command):
             )
 
         if event.type == 'WatchEvent':
-            return '{0} {1}/{2}'.format(event.payload['action'], *event.repo)
+            return 'starred {0}/{1}'.format(*event.repo)
 
     def run(self, options, args):
         self.opts, args = self.parser.parse_args(args)
