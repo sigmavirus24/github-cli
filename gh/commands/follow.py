@@ -5,6 +5,7 @@ class FollowCommand(Command):
     name = 'follow'
     usage = '%prog [options] follow login'
     summary = 'Follow a user'
+    subcommands = {}
 
     def __init__(self):
         super(FollowCommand, self).__init__()

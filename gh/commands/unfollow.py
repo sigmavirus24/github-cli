@@ -5,6 +5,7 @@ class UnfollowCommand(Command):
     name = 'unfollow'
     usage = '%prog [options] unfollow login'
     summary = 'Un-follow a user'
+    subcommands = {}
 
     def __init__(self):
         super(UnfollowCommand, self).__init__()
