@@ -1,0 +1,27 @@
+_gh(){
+    local cur prev commands
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+
+    if [[ $COMP_CWORD -eq 1 ]] ; then
+        commands="follow fork gists help issues my pulls repos unfollow"
+    elif [[ $COMP_CWORD -eq 2 ]] ; then
+        case "$prev" in
+            gists|issues|pulls|repos)
+                commands="create"
+                ;;
+            my)
+                commands="dashboard issues notifications stars"
+                ;;
+        esac
+    fi
+
+    COMPREPLY=( $(compgen -W "$commands" -- $cur) )
+    return 0
+}
+
+complete -F _gh gh
+
+# vim: set ft=bash:
