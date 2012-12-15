@@ -7,7 +7,7 @@ from re import compile
 try:
     from setuptools import setup
 except ImportError:
-    from distutils.core import setup
+    from distutils.core import setup  # NOQA
 
 if sys.argv[1] in ('submit', 'publish'):
     os.system('python setup.py sdist upload')
@@ -16,7 +16,7 @@ if sys.argv[1] in ('submit', 'publish'):
 sysv = sys.version[:3]
 
 packages = ['gh', 'gh.commands']
-requires = ['github3.py>=0.1b0']
+requires = ['github3.py>=0.2']
 pkg_data = {'': ['LICENSE', 'AUTHORS.rst']}
 entry_pt = {'console_scripts': ['gh=gh:main', 'gh-{0}=gh:main'.format(sysv)]}
 del sysv
@@ -39,7 +39,7 @@ setup(
     version=__version__,
     description='Command-line access to GitHub via github3.py',
     long_description='\n\n'.join([open('README.rst').read(),
-        open('HISTORY.rst').read()]),
+                                  open('HISTORY.rst').read()]),
     author='Ian Cordasco',
     author_email='graffatcolmingov@gmail.com',
     url='https://github.com/sigmavirus24/github-cli',
@@ -63,5 +63,5 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
-        ]
-    )
+    ]
+)
