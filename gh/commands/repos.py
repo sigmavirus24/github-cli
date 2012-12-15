@@ -8,7 +8,8 @@ class ReposCommand(Command):
     name = 'repos'
     usage = ('%prog [options] repos [options] [login] [sub-command]')
     summary = ('Interact with the Repositories API')
-    fs = ("{d[bold]}{0.name}{d[default]} -- {1:.50}")
+    fs = ("{d[bold]}{0.name}{d[default]}\n  {1:.72}")
+    fs2 = ("{d[bold]}{0.name}{d[default]}")
     subcommands = {
         'create [name]': 'Create a new repository with given name',
     }
@@ -90,8 +91,8 @@ class ReposCommand(Command):
             repos = self.gh.iter_repos(self.user, **kwargs)
 
         for repo in repos:
-            print(self.fs.format(repo, repo.description.encode('utf-8'),
-                                 d=tc))
+            fs = self.fs if repo.description else self.fs2
+            print(fs.format(repo, repo.description.encode('utf-8'), d=tc))
 
         return self.SUCCESS
 
