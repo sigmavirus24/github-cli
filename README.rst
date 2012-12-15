@@ -6,7 +6,7 @@ github-cli
     :alt: Build Status
     :target: http://travis-ci.org/sigmavirus24/github-cli
 
- 
+
 This tool provides partial itneraction with GitHub and its API from the 
 command line. This tool is far from complete or comprehensive.
 
@@ -15,10 +15,15 @@ Dependencies
 
 - github3.py_
 
-- requests_ (required for github3.py)
+  + requests_
 
 Current Usage
 -------------
+
+If you would like command completion, look in the completion directory for 
+your shell of choice. If you don't see one for your shell, feel free to send a 
+pull request adding one! **Note**: The current bash completion is imperfect so 
+feel free to improve on it and send pull requests.
 
 To get a comprehensive look at the following commands, use their help pages 
 like below.
@@ -122,11 +127,6 @@ unfollow
 ::
 
     $ gh unfollow sigmavirus24
-
-Design
-------
-
-Take a look at design.rst_\ .
 
 License
 -------
