@@ -1,3 +1,4 @@
+import os
 from gh.base import Command, CustomOptionParser
 from gh.util import tc
 
@@ -79,7 +80,8 @@ class GistsCommand(Command):
 
         files = {}
         for f in args:
-            files[f] = {'content': open(f).read()}
+            name = os.path.basename(f)
+            files[name] = {'content': open(f).read()}
 
         g = self.gh.create_gist(opts.description, files, not opts.private)
         self.print_gist(g)
