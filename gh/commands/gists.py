@@ -6,9 +6,6 @@ class GistsCommand(Command):
     name = 'gists'
     usage = '%prog [options] gists [options] [sub-commands]'
     summary = 'Interact with the Gists API'
-    subcommands = {
-        'create': 'Create a new gist'
-    }
     gist_fs = '{0[bold]}{id}{0[default]} -- {desc}'
 
     def __init__(self):
@@ -50,40 +47,6 @@ class GistsCommand(Command):
 
         for g in self.gh.iter_gists(username, number):
             self.print_gist(g)
-
-    def create(self, args):
-        self.login()
-
-        parser = CustomOptionParser('%prog [options] gists create [options] '
-                                    'file_0 file_1 ...')
-        add = parser.add_option
-        add('-p', '--private',
-            dest='private',
-            help='Make this gist private',
-            default=False,
-            action='store_true',
-            )
-        add('-d', '--description',
-            dest='description',
-            help='Description of the gist',
-            type='str',
-            default='',
-            nargs=1,
-            )
-
-        opts, args = parser.parse_args(args)
-
-        if not args:
-            parser.print_help()
-            return self.FAILURE
-
-        files = {}
-        for f in args:
-            files[f] = {'content': open(f).read()}
-
-        g = self.gh.create_gist(opts.description, files, not opts.private)
-        self.print_gist(g)
-        return self.SUCCESS
 
     def print_gist(self, gist):
         print(self.gist_fs.format(tc, id=gist.id, desc=gist.description))

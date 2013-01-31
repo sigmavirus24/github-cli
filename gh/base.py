@@ -108,24 +108,26 @@ class CustomOptionParser(OptionParser):
 
 
 main_parser = CustomOptionParser('%prog [options] [sub-command(s)]')
-
 main_parser.add_option('-u', '--basic-auth',
                        dest='basic_auth',
                        action='store_true',
                        default=False,
                        help='Force basic authentication')
-
 main_parser.add_option('-c', '--config',
                        dest='config_path',
                        type='str',
                        default='$HOME/.ghconfig',
                        nargs=1)
-
 main_parser.add_option('-L', '--location-aware',
                        dest='loc_aware',
                        action='store_false',
                        default=True,
                        help='Disable location awareness')
+main_parser.add_option('-r', '--repo',
+                       dest='repository',
+                       type='str',
+                       default=None,
+                       help='Repository to work with')
 
 
 def load_command(name):

@@ -13,10 +13,8 @@ def main():
         main_parser.error('You must provide a command. '
                           '(Use `gh help` to see a list of commands)')
 
-    repository = ()
-    if '/' in args[0]:
-        repository = args[0].split('/')
-        args = args[1:]
+    if opts.repository and '/' in opts.repository:
+        repository = opts.repository.split('/')
 
     if opts.loc_aware and not repository:
         repository = get_repository_tuple()

@@ -47,6 +47,15 @@ help
     $ gh help repos
     $ gh help unfollow
 
+create.gist
+~~~~~~~~~~~
+
+::
+
+    $ echo "This is stdin" | gh create.gist -
+    $ gh create.gist -d "Public gist" file1.rb file2.rb file3.rb
+    $ gh create.gist -p -d "Private gist" file1.py file2.py file3.py
+
 follow
 ~~~~~~
 
@@ -71,8 +80,6 @@ gists
 
     $ gh gists
     $ gh gists -u sigmavirus24
-    $ gh gists create -d "Public gist" file1.rb file2.rb file3.rb
-    $ gh gists create -p -d "Private gist" file1.py file2.py file3.py
 
 issues
 ~~~~~~
@@ -81,8 +88,8 @@ issues
 
     $ cd path/to/repo/on/GitHub
     $ gh issues
-    $ gh sigmavirus24/github3.py issues
-    $ gh sigmavirus24/github3.py issues 48
+    $ gh -r sigmavirus24/github3.py issues
+    $ gh -r sigmavirus24/github3.py issues 48
     $ gh issues 48 close
     $ gh issues 48 reopen
     $ gh issues 48 comment

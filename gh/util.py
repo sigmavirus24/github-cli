@@ -2,6 +2,7 @@ from textwrap import TextWrapper
 from re import compile
 from tempfile import NamedTemporaryFile
 import os
+import sys
 
 
 def get_repository_tuple():
@@ -60,6 +61,10 @@ def trim_numbers(number):
     if number.startswith('#'):
         return number[1:]
     return number
+
+
+def read_stdin():
+    return sys.stdin.read()
 
 
 def mktmpfile(prefix='gh-'):
