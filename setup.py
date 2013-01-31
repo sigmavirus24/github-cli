@@ -16,7 +16,7 @@ if sys.argv[1] in ('submit', 'publish'):
 sysv = sys.version[:3]
 
 packages = ['gh', 'gh.commands']
-requires = ['github3.py>=0.2']
+requires = ['github3.py>=0.3']
 pkg_data = {'': ['LICENSE', 'AUTHORS.rst']}
 entry_pt = {'console_scripts': ['gh=gh:main', 'gh-{0}=gh:main'.format(sysv)]}
 del sysv
