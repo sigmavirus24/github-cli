@@ -1,14 +1,14 @@
 from gh.base import Command
 
 
-class ForkCommand(Command):
-    name = 'fork'
-    usage = '%prog [options] fork [options] login/repo'
+class ForkRepoCommand(Command):
+    name = 'fork.repo'
+    usage = '%prog [options] fork.repo [options] login/repo'
     summary = 'Fork a repository'
     subcommands = {}
 
     def __init__(self):
-        super(ForkCommand, self).__init__()
+        super(ForkRepoCommand, self).__init__()
         self.parser.add_option('-o', '--organization',
                                dest='organization',
                                help='Fork to an organization instead of user',
@@ -41,4 +41,4 @@ class ForkCommand(Command):
         return self.SUCCESS
 
 
-ForkCommand()
+ForkRepoCommand()
