@@ -45,7 +45,6 @@ class CreateGistCommand(Command):
         else:
             opts.private = False
 
-
         status = self.COMMAND_UNKNOWN
 
         if not args:

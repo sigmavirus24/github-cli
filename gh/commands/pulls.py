@@ -1,4 +1,4 @@
-from gh.base import Command, CustomOptionParser
+from gh.base import Command
 from gh.util import tc, trim_numbers, sep, wrap
 
 

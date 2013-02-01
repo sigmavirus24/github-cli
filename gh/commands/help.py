@@ -1,7 +1,6 @@
 from pkgutil import walk_packages
 from gh.base import Command, load_command, commands, main_parser
 from gh import commands as cmds
-from gh.commands import create
 import os
 
 

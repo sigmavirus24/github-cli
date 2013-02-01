@@ -54,7 +54,7 @@ class ReposCommand(Command):
         if args:
             user = args.pop(0)
         else:
-            user = get_user()
+            user = self.get_user()
 
         kwargs = {
             'type': opts.type,
