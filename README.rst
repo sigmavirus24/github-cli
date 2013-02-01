@@ -146,8 +146,6 @@ pulls
     $ gh pulls 48 merge
     $ gh pulls 48 close
     $ gh pulls 48 comments
-    $ gh pulls create -h
-    $ gh pulls create -t "Pull Request Title" kennethreitz:master develop
 
 repos
 ~~~~~

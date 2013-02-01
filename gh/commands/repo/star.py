@@ -1,14 +1,14 @@
 from gh.base import Command
 
 
-class StarCommand(Command):
-    name = 'star'
-    usage = '%prog [options] star [login/]repo'
+class StarRepoCommand(Command):
+    name = 'star.repo'
+    usage = '%prog [options] star.repo [login/]repo'
     summary = 'Star a repository'
     subcommands = {}
 
     def __init__(self):
-        super(StarCommand, self).__init__()
+        super(StarRepoCommand, self).__init__()
         self.parser.epilog = ("If you don't specify a login, we will assume"
                               " that you own the repository you wish to "
                               "star.")
@@ -34,4 +34,4 @@ class StarCommand(Command):
         return self.FAILURE
 
 
-StarCommand()
+StarRepoCommand()

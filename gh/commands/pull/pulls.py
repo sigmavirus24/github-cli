@@ -46,9 +46,6 @@ class PullsCommand(Command):
 
         args[0] = trim_numbers(args[0])
 
-        if args[0].lower() == 'create':
-            return self.create(args[1:])
-
         if not args[0].isdigit():
             return self.COMMAND_UNKNOWN
 
