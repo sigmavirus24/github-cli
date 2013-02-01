@@ -3,6 +3,7 @@ from gh.util import tc, wrap, trim_numbers, sep
 from github3 import GitHubError
 from os import system
 from os.path import expandvars
+import sys
 
 
 class IssuesCommand(Command):
@@ -123,7 +124,8 @@ class IssuesCommand(Command):
         else:
             extra = ''
 
-        issue.title = issue.title.encode('ascii', 'replace')
+        if sys.version_info < (3, 0):
+            issue.title = issue.title.encode('ascii', 'replace')
 
         return (self.fs.format(issue, bold=tc['bold'], default=tc['default'])
                 + extra)
