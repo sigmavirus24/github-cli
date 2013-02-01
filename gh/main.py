@@ -13,6 +13,7 @@ def main():
         main_parser.error('You must provide a command. '
                           '(Use `gh help` to see a list of commands)')
 
+    repository = ()
     if opts.repository and '/' in opts.repository:
         repository = opts.repository.split('/')
 

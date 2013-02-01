@@ -24,14 +24,26 @@ class CreateGistCommand(Command):
             default='',
             nargs=1,
             )
-        self.parser.epilog('create.gist will accept stdin if you use `-` to'
-                           'indicate that is your intention')
+        add('-a', '--anonymous',
+            dest='anonymous',
+            help='Create anonymously',
+            default=False,
+            action='store_true',
+            )
+        self.parser.epilog = ('create.gist will accept stdin if you use `-`'
+                              ' to indicate that is your intention')
 
     def run(self, options, args):
         opts, args = self.parser.parse_args(args)
 
         if opts.help:
             self.help()
+
+        if not opts.anonymous:
+            self.login()
+        else:
+            opts.private = False
+
 
         status = self.COMMAND_UNKNOWN
 
@@ -47,7 +59,7 @@ class CreateGistCommand(Command):
         else:
             for f in args:
                 base = os.path.basename(f)
-                files[f] = {'content': open(f, 'rb').read()}
+                files[base] = {'content': open(f, 'rb').read()}
 
         # Create the gist
         g = self.gh.create_gist(opts.description, files, not opts.private)
@@ -56,4 +68,7 @@ class CreateGistCommand(Command):
             print('{0.id} -- {0.html_url}'.format(g))
             status = self.SUCCESS
 
-        return success
+        return status
+
+
+CreateGistCommand()
