@@ -15,7 +15,7 @@ def main():
 
     repository = ()
     if opts.repository and '/' in opts.repository:
-        repository = opts.repository.split('/')
+        repository = opts.repository.split('/', 1)
 
     if opts.loc_aware and not repository:
         repository = get_repository_tuple()

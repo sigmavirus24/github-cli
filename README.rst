@@ -56,6 +56,13 @@ create.gist
     $ gh create.gist -d "Public gist" file1.rb file2.rb file3.rb
     $ gh create.gist -p -d "Private gist" file1.py file2.py file3.py
 
+create.issue
+~~~~~~~~~~~~
+
+::
+
+    $ gh create.issue -t 'New bug found in version 0.10'
+
 create.pull
 ~~~~~~~~~~~
 
@@ -80,14 +87,21 @@ follow
     $ gh follow kennethreitz
     $ gh follow sigmavirus24
 
-fork
-~~~~
+fork.gist
+~~~~~~~~~
 
 ::
 
-    $ gh fork kennethreitz/requests
-    $ gh fork sigmavirus24/github3.py
-    $ gh fork sigmavirus24/github-cli
+    $ gh fork.gist 10
+
+fork.repo
+~~~~~~~~~
+
+::
+
+    $ gh fork.repo kennethreitz/requests
+    $ gh fork.repo sigmavirus24/github3.py
+    $ gh fork.repo sigmavirus24/github-cli
 
 gists
 ~~~~~
@@ -140,9 +154,15 @@ repos
 
 ::
 
-    $ gh repos
-    $ gh repos create new_repo
-    $ gh repos -o orgname create new_repo
+    $ gh repos kennethreitz
+
+star
+~~~~
+
+::
+
+    $ gh star kennethreitz/tablib
+    $ gh star some_repo_i_own
 
 unfollow
 ~~~~~~~~
@@ -150,6 +170,14 @@ unfollow
 ::
 
     $ gh unfollow sigmavirus24
+
+unstar
+~~~~~~
+
+::
+
+    $ gh unstar some_repo_i_own
+    $ gh unstar sigmavirus24/requests
 
 License
 -------
