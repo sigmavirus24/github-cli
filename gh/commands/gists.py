@@ -1,10 +1,11 @@
 from gh.base import Command
-from gh.util import tc
+from gh.util import tc, wrap
+from gh.compat import fix_encoding
 
 
 class GistsCommand(Command):
     name = 'gists'
-    usage = '%prog [options] gists [options] [sub-commands]'
+    usage = '%prog [options] gists [options] [gistid]'
     summary = 'Interact with the Gists API'
     gist_fs = '{0[bold]}{id}{0[default]} -- {desc}'
 
@@ -35,12 +36,21 @@ class GistsCommand(Command):
         if not opts.username:
             self.login()
 
-        for g in self.gh.iter_gists(opts.username, opts.number):
-            self.print_gist(g)
+        if args:
+            self.print_gist(self.gh.gist(args[0]))
+        else:
+            for g in self.gh.iter_gists(opts.username, opts.number):
+                self.short_gist(g)
 
         return self.SUCCESS
 
     def print_gist(self, gist):
+        print('{0.html_url}: {0.description}'.format(gist))
+        for f in gist.iter_files():
+            f.content = fix_encoding(f.content)
+            print(f.content)
+
+    def short_gist(self, gist):
         print(self.gist_fs.format(tc, id=gist.id, desc=gist.description))
         self.print_files(gist)
         print('  {0}'.format(gist.html_url))

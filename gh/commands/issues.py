@@ -1,9 +1,9 @@
 from gh.base import Command, CustomOptionParser
 from gh.util import tc, wrap, trim_numbers, sep
+from gh.compat import fix_encoding
 from github3 import GitHubError
 from os import system
 from os.path import expandvars
-import sys
 
 
 class IssuesCommand(Command):
@@ -124,8 +124,7 @@ class IssuesCommand(Command):
         else:
             extra = ''
 
-        if sys.version_info < (3, 0):
-            issue.title = issue.title.encode('ascii', 'replace')
+        issue.title = fix_encoding(issue.title)
 
         return (self.fs.format(issue, bold=tc['bold'], default=tc['default'])
                 + extra)
