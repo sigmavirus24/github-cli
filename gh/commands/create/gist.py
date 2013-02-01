@@ -7,6 +7,7 @@ class CreateGistCommand(Command):
     name = 'create.gist'
     usage = '%prog [options] create.gist [options] file1 file2'
     summary = 'Create a new gist'
+    subcommands = {}
 
     def __init__(self):
         super(CreateGistCommand, self).__init__()

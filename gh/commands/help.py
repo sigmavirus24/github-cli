@@ -16,12 +16,19 @@ class HelpCommand(Command):
 
     def run(self, options, args):
         def load_subcommand(command, top_level_path):
-            print(command, top_level_path)
             path = [os.path.join(top_level_path, command)]
             for _, cmd, __ in walk_packages(path=path):
                 subcmd = '{0}.{1}'.format(command, cmd)
                 load_command(subcmd)
                 self.subcommands[subcmd] = commands[subcmd].summary
+
+        if args:
+            cmd = args[0].lower()
+            load_command(cmd)
+            if cmd not in commands:
+                self.parser.error('No command named: {0}'.format(cmd))
+            commands[cmd].help()
+            return 0
 
         # Load all available commands
         for imp, command, ispkg in walk_packages(path=cmds.__path__):
@@ -30,13 +37,6 @@ class HelpCommand(Command):
             else:
                 load_command(command)
                 self.subcommands[command] = commands[command].summary
-
-        if args:
-            cmd = args[0].lower()
-            if cmd not in commands:
-                self.parser.error('No command named: {0}'.format(cmd))
-            commands[cmd].help()
-            return 0
 
         self.help()
 

@@ -1,6 +1,5 @@
 from gh.base import Command
 from gh.util import tc
-from gh.compat import input
 from github3.users import User
 
 
@@ -45,14 +44,6 @@ class ReposCommand(Command):
                                default=-1,
                                nargs=1,
                                )
-        self.parser.add_option('-o', '--organization',
-                               dest='organization',
-                               help=('Organization to create this repository '
-                                     'under'),
-                               type='str',
-                               default='',
-                               nargs=1,
-                               )
 
     def run(self, options, args):
         opts, args = self.parser.parse_args(args)
@@ -63,21 +54,11 @@ class ReposCommand(Command):
         if opts.sort == 'name':
             opts.sort = 'full_name'
 
-        if not args or args[0] not in self.commands:
-            if args:
-                self.user = args.pop(0)
-            else:
-                self.get_user()
-            return self.print_repos(opts)
+        if args:
+            user = args.pop(0)
+        else:
+            user = get_user()
 
-        cmd = args.pop(0)
-        if cmd not in self.commands:
-            return self.COMMAND_UNKNOWN
-
-        if cmd == 'create':
-            self.create(opts, args)
-
-    def print_repos(self, opts):
         kwargs = {
             'type': opts.type,
             'sort': opts.sort,
@@ -85,7 +66,7 @@ class ReposCommand(Command):
             'number': opts.number
         }
 
-        if isinstance(self.user, User):
+        if isinstance(user, User):
             repos = self.gh.iter_repos(**kwargs)
         else:
             repos = self.gh.iter_repos(self.user, **kwargs)
@@ -95,46 +76,6 @@ class ReposCommand(Command):
             print(fs.format(repo, repo.description.encode('utf-8'), d=tc))
 
         return self.SUCCESS
-
-    def create(self, opts, args):
-        status = self.SUCCESS
-        org = None
-        repo = None
-
-        try:
-            name = args.pop(0)
-        except IndexError:
-            self.parser.error("You must provide a name for your new "
-                              "repository")
-            return self.FAILURE
-
-        self.login()
-
-        if opts.organization:
-            org = self.gh.organization(opts.organization)
-
-        conf = {}
-        conf['description'] = input('Description: ')
-        conf['homepage'] = input('Website: ')
-        conf['private'] = bool(input('Private [False]: ') or False)
-
-        if org:
-            teams = [t for t in org.iter_teams()]
-            print('(Optional) Select team to add this to:')
-            for i, t in enumerate(teams):
-                print('\t[{0}] {1}'.format(i, t.name))
-
-            i = int(input(''))
-            conf['team_id'] = teams[i].id
-
-            repo = org.create_repo(name, **conf)
-        else:
-            repo = self.gh.create_repo(name, **conf)
-
-        if not repo:
-            status = self.FAILURE
-
-        return status
 
 
 ReposCommand()
