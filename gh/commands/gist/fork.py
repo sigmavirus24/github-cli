@@ -1,9 +1,9 @@
 from gh.base import Command
 
 
-class ForkGistCommand(Command):
-    name = 'fork.gist'
-    usage = '%prog [options] fork.gist [options] gist_id'
+class GistForkCommand(Command):
+    name = 'gist.fork'
+    usage = '%prog [options] gist.fork [options] gist_id'
     summary = 'Fork a gist'
     subcommands = {}
 
@@ -33,4 +33,4 @@ class ForkGistCommand(Command):
         return self.SUCCESS
 
 
-ForkGistCommand()
+GistForkCommand()
