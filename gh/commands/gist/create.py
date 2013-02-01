@@ -3,14 +3,14 @@ from gh.base import Command
 from gh.util import read_stdin
 
 
-class CreateGistCommand(Command):
-    name = 'create.gist'
-    usage = '%prog [options] create.gist [options] file1 file2'
+class GistCreateCommand(Command):
+    name = 'gist.create'
+    usage = '%prog [options] gist.create [options] file1 file2'
     summary = 'Create a new gist'
     subcommands = {}
 
     def __init__(self):
-        super(CreateGistCommand, self).__init__()
+        super(GistCreateCommand, self).__init__()
         add = self.parser.add_option
         add('-p', '--private',
             dest='private',
@@ -71,4 +71,4 @@ class CreateGistCommand(Command):
         return status
 
 
-CreateGistCommand()
+GistCreateCommand()
