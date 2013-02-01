@@ -10,7 +10,7 @@ class IssuesCommand(Command):
     usage = ('%prog [options] [user/repo] issues [options] [number]'
              ' [sub-command]')
     summary = 'Interact with the Issues API'
-    fs = ('#{bold}{0.number}{default} {0.title:.36} - @{u.login}')
+    fs = ('#{bold}{0.number}{default} {0.title:.36} - @{0.user}')
     subcommands = {
         '[#]num': 'Print the full issue',
         '[#]num comments': 'Print all the comments on this issue',
@@ -162,12 +162,13 @@ class IssuesCommand(Command):
 
         if extra:
             extra = ' (' + ' -- '.join(extra) + ')'
-
         else:
             extra = ''
 
-        return self.fs.format(issue, u=issue.user, bold=tc['bold'],
-                              default=tc['default']) + extra
+        issue.title = issue.title.encode('ascii', 'replace')
+
+        return (self.fs.format(issue, bold=tc['bold'], default=tc['default'])
+                + extra)
 
     def print_comments(self, number, opts):
         issue = self.repo.issue(number)

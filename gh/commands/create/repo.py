@@ -56,8 +56,8 @@ class CreateRepoCommand(Command):
 
         if not repo:
             status = self.FAILURE
-
-        print("{0} {0.html_url}".format(repo))
+        else:
+            print("{0} {0.html_url}".format(repo))
 
         return status
 

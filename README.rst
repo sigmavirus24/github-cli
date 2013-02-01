@@ -56,6 +56,22 @@ create.gist
     $ gh create.gist -d "Public gist" file1.rb file2.rb file3.rb
     $ gh create.gist -p -d "Private gist" file1.py file2.py file3.py
 
+create.pull
+~~~~~~~~~~~
+
+::
+
+    $ gh create.pull -t 'Fixes issue #50' sigmavirus24:fix50 master
+    $ gh create.pull -i 50 sigmavirus24:fix50 master
+
+create.repo
+~~~~~~~~~~~
+
+::
+
+    $ gh create.repo awesome_repo
+    $ gh create.repo -o orgname awesome_repo
+
 follow
 ~~~~~~
 

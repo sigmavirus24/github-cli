@@ -14,8 +14,6 @@ class PullsCommand(Command):
         '[#]num close': 'Close this pull request',
         '[#]num reopen': 'Re-open this pull request',
         '[#]num merge': 'Merge this pull request',
-        '[#]num create [options]': 'Create a pull request from an issue',
-        'create [options]': 'Create a brand new pull request',
     }
 
     def __init__(self):
@@ -73,45 +71,6 @@ class PullsCommand(Command):
             status = self.merge(number, args)
 
         return status
-
-    def create(self, args):
-        parser = CustomOptionParser()
-        parser.set_usage('%prog [options] pulls create [options] base head')
-        parser.add_option('-i', '--from-issue',
-                          dest='issue',
-                          help='Create the pull from issue provided',
-                          type='int',
-                          default=-1,
-                          nargs=1,
-                          )
-        parser.add_option('-t', '--title',
-                          dest='title',
-                          help='Title for a new pull request',
-                          type='str',
-                          default='',
-                          nargs=1,
-                          )
-        opts, args = parser.parse_args(args)
-
-        if opts.help:
-            parser.print_help()
-            return self.SUCCESS
-
-        if opts.issue < 1 and not (opts.title and len(args) >= 2):
-            parser.error('Invalid create call')
-            parser.print_help()
-            return self.FAILURE
-
-        self.login()
-        if opts.issue >= 1:
-            pr = self.repo.create_pull_from_issue(args[0], args[1])
-        elif opts.title:
-            pr = self.repo.create_pull(opts.title, args[0], args[1])
-
-        if pr:
-            return self.SUCCESS
-
-        return self.FAILURE
 
     def format_short_pull(self, pull):
         return self.fs.format(pull, u=pull.user, bold=tc['bold'],

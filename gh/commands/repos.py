@@ -9,10 +9,7 @@ class ReposCommand(Command):
     summary = ('Interact with the Repositories API')
     fs = ("{d[bold]}{0.name}{d[default]}\n  {1:.72}")
     fs2 = ("{d[bold]}{0.name}{d[default]}")
-    subcommands = {
-        'create [name]': 'Create a new repository with given name',
-    }
-    commands = set(['create'])
+    subcommands = {}
 
     def __init__(self):
         super(ReposCommand, self).__init__()
