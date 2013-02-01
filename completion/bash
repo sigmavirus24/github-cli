@@ -3,18 +3,16 @@ _gh(){
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    top_level_commands="follow fork gists help issues my pulls repos unfollow"
+    top_level="follow gists help issues my pulls repos unfollow fork.repo \
+    fork.gist create.pull create.issue create.repo create.gist"
 
 
     if [[ $COMP_CWORD -eq 1 ]] ; then
-        commands="$top_level_commands"
+        commands="$top_level"
     elif [[ $COMP_CWORD -eq 2 ]] ; then
         case "$prev" in
-            gists|issues|pulls|repos)
-                commands="create"
-                ;;
             help)
-                commands="$top_level_commands"
+                commands="$top_level"
                 ;;
             my)
                 commands="dashboard issues notifications stars"
@@ -28,4 +26,4 @@ _gh(){
 
 complete -F _gh gh
 
-# vim: set ft=bash:
+# vim: set ft=sh:
