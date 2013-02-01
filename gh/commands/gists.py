@@ -32,25 +32,18 @@ class GistsCommand(Command):
         if opts.help:
             self.help()
 
-        status = self.COMMAND_UNKNOWN
-
-        if not args:
-            status = self.gists(opts.username, opts.number)
-        elif args[0] == 'create':
-            status = self.create(args[1:])
-
-        return status
-
-    def gists(self, username, number):
-        if not username:
+        if not opts.username:
             self.login()
 
-        for g in self.gh.iter_gists(username, number):
+        for g in self.gh.iter_gists(opts.username, opts.number):
             self.print_gist(g)
+
+        return self.SUCCESS
 
     def print_gist(self, gist):
         print(self.gist_fs.format(tc, id=gist.id, desc=gist.description))
         self.print_files(gist)
+        print('  {0}'.format(gist.html_url))
 
     def print_files(self, gist):
         for f in gist.iter_files():
