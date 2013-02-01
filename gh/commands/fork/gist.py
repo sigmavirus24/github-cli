@@ -3,7 +3,7 @@ from gh.base import Command
 
 class ForkGistCommand(Command):
     name = 'fork.gist'
-    usage = '%prog [options] fork.gist [options] login/repo'
+    usage = '%prog [options] fork.gist [options] gist_id'
     summary = 'Fork a gist'
     subcommands = {}
 
