@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Github-cli by sigmavirus24</title>
+    <title>github-cli by sigmavirus24</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -31,7 +31,7 @@
 
       <section>
         <div id="title">
-          <h1>Github-cli</h1>
+          <h1>github-cli</h1>
           <p>Command-line access to GitHub via the API (v3)</p>
           <hr>
           <span class="credits left">Project maintained by <a href="https://github.com/sigmavirus24">sigmavirus24</a></span>
@@ -48,10 +48,19 @@ command line. This tool is far from complete or comprehensive.</p>
 <h2>Dependencies</h2>
 
 <ul>
-<li><p><a href="https://github.com/sigmavirus24/github3.py">github3.py</a></p></li>
-<li><p><a href="https://github.com/kennethreitz/requests">requests</a> (required for 
-github3.py)</p></li>
+<li>
+<p><a href="https://github.com/sigmavirus24/github3.py">github3.py</a></p>
+
+<ul>
+<li><a href="https://github.com/kennethreitz/requests">requests</a></li>
+</ul>
+</li>
 </ul><h2>Current Usage</h2>
+
+<p>If you would like command completion, look in the completion directory for 
+your shell of choice. If you don't see one for your shell, feel free to send a 
+pull request adding one! <strong>Note</strong>: The current bash completion is imperfect so 
+feel free to improve on it and send pull requests.</p>
 
 <p>To get a comprehensive look at the following commands, use their help pages 
 like below.</p>
@@ -60,9 +69,7 @@ like below.</p>
 
 <pre><code>$ gh help
 # Alternatively gh -h
-</code></pre>
-
-<pre><code>$ gh help follow
+$ gh help follow
 $ gh help fork
 $ gh help gists
 $ gh help issues
@@ -70,6 +77,30 @@ $ gh help my
 $ gh help pulls
 $ gh help repos
 $ gh help unfollow
+</code></pre>
+
+<h3>create.gist</h3>
+
+<pre><code>$ echo "This is stdin" | gh create.gist -
+$ gh create.gist -d "Public gist" file1.rb file2.rb file3.rb
+$ gh create.gist -p -d "Private gist" file1.py file2.py file3.py
+</code></pre>
+
+<h3>create.issue</h3>
+
+<pre><code>$ gh create.issue -t "Some new issue I found"
+</code></pre>
+
+<h3>create.pull</h3>
+
+<pre><code>$ gh create.pull -i 4 base head
+$ gh create.pull -t 'Awesome new feature!' base head
+</code></pre>
+
+<h3>create.repo</h3>
+
+<pre><code>$ gh create.repo new_project
+$ gh create.repo -o orgname other_project
 </code></pre>
 
 <h3>follow</h3>
@@ -89,16 +120,14 @@ $ gh fork sigmavirus24/github-cli
 
 <pre><code>$ gh gists
 $ gh gists -u sigmavirus24
-$ gh gists create -d "Public gist" file1.rb file2.rb file3.rb
-$ gh gists create -p -d "Private gist" file1.py file2.py file3.py
 </code></pre>
 
 <h3>issues</h3>
 
 <pre><code>$ cd path/to/repo/on/GitHub
 $ gh issues
-$ gh sigmavirus24/github3.py issues
-$ gh sigmavirus24/github3.py issues 48
+$ gh -r sigmavirus24/github3.py issues
+$ gh -r sigmavirus24/github3.py issues 48
 $ gh issues 48 close
 $ gh issues 48 reopen
 $ gh issues 48 comment
@@ -126,8 +155,6 @@ $ gh pulls 48 comments
 <h3>repos</h3>
 
 <pre><code>$ gh repos
-$ gh repos create new_repo
-$ gh repos -o orgname create new_repo
 </code></pre>
 
 <h3>unfollow</h3>
@@ -135,12 +162,7 @@ $ gh repos -o orgname create new_repo
 <pre><code>$ gh unfollow sigmavirus24
 </code></pre>
 
-<h2>Design</h2>
-
-<p>Take a look at 
-<a href="https://github.com/sigmavirus24/github-cli/blob/master/design.rst">design.rst</a>.</p>
-
-<h2>License</h2>
+<h1>License</h1>
 
 <p><img src="http://gplv3.fsf.org/gplv3-127x51.png" alt="GPLv3"></p>
       </section>
