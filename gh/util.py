@@ -94,4 +94,17 @@ def wrap(text):
     return '\n\n'.join(paragraphs)
 
 
+def get_issue_number(args, parser, error):
+    if not args:
+        self.parser.error(error)
+        return None
+
+    number = trim_numbers(args[0])
+    if not number.isdigit():
+        self.parser.error('A valid integer is required')
+        return None
+
+    return number
+
+
 sep = '-' * 78
