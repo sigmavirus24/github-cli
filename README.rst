@@ -7,7 +7,7 @@ github-cli
     :target: http://travis-ci.org/sigmavirus24/github-cli
 
 
-This tool provides partial itneraction with GitHub and its API from the 
+This tool provides partial interaction with GitHub and its API from the 
 command line. This tool is far from complete or comprehensive.
 
 Dependencies
