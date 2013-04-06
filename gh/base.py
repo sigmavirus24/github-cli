@@ -81,6 +81,9 @@ class Command(object):
             parser.add_section('github')
             parser.set('github', 'token', auth.token)
             self.gh.login(token=auth.token)
+            # Create the file if it doesn't exist. Otherwise completely blank
+            # out what was there before. Kind of dangerous and destructive but
+            # somewhat necessary
             parser.write(open(config, 'w+'))
 
     def help(self):
