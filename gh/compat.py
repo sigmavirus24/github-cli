@@ -5,9 +5,9 @@ except NameError:
 
 
 try:
-    from ConfigParser import ConfigParser
+    from ConfigParser import SafeConfigParser as ConfigParser
 except ImportError:
-    from configparser import ConfigParser  # NOQA
+    from configparser import SafeConfigParser as ConfigParser
 
 import sys
 
