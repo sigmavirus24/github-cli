@@ -2,8 +2,8 @@ from gh.base import Command
 
 
 class CreatePullCommand(Command):
-    name = 'create.pull'
-    usage = '%prog [options] create.pull [options] base head'
+    name = 'pull.create'
+    usage = '%prog [options] pull.create [options] base head'
     summary = 'Create a new pull request'
     subcommands = {}
 
