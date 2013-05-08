@@ -28,11 +28,11 @@ class TestIssueCommand(BaseTest):
         assert short in long
 
     def test_run(self):
-        opts, args = main_parser.parse_args(['issues', '30', 'comments'])
+        opts, args = main_parser.parse_args(['issue', '30', 'comments'])
         SUCCESS = self.command.SUCCESS
         COMMAND_UNKNOWN = self.command.COMMAND_UNKNOWN
         with patch.object(IssueCommand, 'get_repo'):
             with patch.object(self.command.repo, 'issue') as issue:
                 issue.return_value = self.issue
                 assert self.command.run(opts, args[1:]) == SUCCESS
-                assert self.command.run(opts, ['foo']) == COMMAND_UNKNOWN
+                self.assertRaises(SystemExit, self.command.run, opts, ['foo'])
