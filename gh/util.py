@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from textwrap import TextWrapper
 from re import compile
 from tempfile import NamedTemporaryFile
@@ -96,12 +98,12 @@ def wrap(text):
 
 def get_issue_number(args, parser, error):
     if not args:
-        self.parser.error(error)
+        print(error, file=sys.stderr)
         return None
 
     number = trim_numbers(args[0])
     if not number.isdigit():
-        parser.error('A valid integer is required')
+        print('A valid integer is required', file=sys.stderr)
         return None
 
     return number
