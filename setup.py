@@ -4,10 +4,7 @@ import sys
 import os
 from re import compile
 
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup  # NOQA
+from setuptools import setup, find_packages
 
 if sys.argv[1] in ('submit', 'publish'):
     os.system('python setup.py sdist upload')
@@ -15,7 +12,6 @@ if sys.argv[1] in ('submit', 'publish'):
 
 sysv = sys.version[:3]
 
-packages = ['gh', 'gh.commands', 'gh.commands.create', 'gh.commands.fork']
 requires = ['github3.py>=0.3']
 pkg_data = {'': ['LICENSE', 'AUTHORS.rst']}
 entry_pt = {'console_scripts': ['gh=gh:main', 'gh-{0}=gh:main'.format(sysv)]}
@@ -43,7 +39,7 @@ setup(
     author='Ian Cordasco',
     author_email='graffatcolmingov@gmail.com',
     url='https://github.com/sigmavirus24/github-cli',
-    packages=packages,
+    packages=find_packages(exclude=['tests', 'tests.*']),
     package_data=pkg_data,
     include_package_data=True,
     install_requires=requires,
