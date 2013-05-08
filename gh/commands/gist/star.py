@@ -16,9 +16,11 @@ class GistStarCommand(Command):
             self.parser.error('You must provide a gist identifier')
             return self.FAILURE
 
+        self.login()
+
         gist = self.gh.gist(args[0])
         if not gist:
-            self.parser.error('Cound not retrieve gist:{0}'.format(gist))
+            self.parser.error('Cound not retrieve gist:{0}'.format(args[0]))
             return self.FAILURE
 
         if gist.is_starred():

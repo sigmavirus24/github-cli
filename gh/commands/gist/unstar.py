@@ -16,9 +16,11 @@ class GistUnstarCommand(Command):
             self.parser.error('You must provide a gist identifier')
             return self.FAILURE
 
+        self.login()
+
         gist = self.gh.gist(args[0])
         if not gist:
-            self.parser.error('Cound not retrieve gist:{0}'.format(gist))
+            self.parser.error('Cound not retrieve gist:{0}'.format(args[0]))
             return self.FAILURE
 
         if not gist.is_starred():
@@ -26,8 +28,7 @@ class GistUnstarCommand(Command):
             return self.SUCCESS
 
         if gist.unstar():
-            print("Unstarred:")
-            print('{0.html_url}: {0.description}'.format(gist))
+            print('Unstarred {0.html_url}: {0.description}'.format(gist))
             return self.SUCCESS
         else:
             print("Failed to unstar.")
