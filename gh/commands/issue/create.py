@@ -3,8 +3,8 @@ from gh.util import mktmpfile, rmtmpfile
 
 
 class CreateIssueCommand(Command):
-    name = 'create.issue'
-    usage = '%prog [options] create.issue [options]'
+    name = 'issue.create'
+    usage = '%prog [options] issue.create [options]'
     summary = 'Create an issue on the specified repository'
     subcommands = {}
 
@@ -28,7 +28,7 @@ class CreateIssueCommand(Command):
             return self.SUCCESS
 
         if not opts.title:
-            parser.error('create.issue requires a title')
+            parser.error('issue.create requires a title')
             parser.print_help()
             return self.FAILURE
 
