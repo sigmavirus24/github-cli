@@ -24,8 +24,8 @@ class TestCustomOptionParser(TestCase):
 
 
 class TestBase(TestCase):
-    command = 'issues'
-    mod = 'gh.commands.issues'
+    command = 'issue'
+    mod = 'gh.commands.issue'
 
     def setUp(self):
         self.mods = sys.modules.copy()

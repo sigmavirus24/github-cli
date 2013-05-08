@@ -1,15 +1,15 @@
 import github3
-from gh.commands.pulls import PullsCommand, tc
+from gh.commands.pull import PullCommand, tc
 from base import BaseTest
 from mock import patch, call
 
 
-class TestPullsCommand(BaseTest):
+class TestPullCommand(BaseTest):
     def __init__(self, methodName='runTest'):
-        super(TestPullsCommand, self).__init__(methodName)
+        super(TestPullCommand, self).__init__(methodName)
         self.number = 13
         self.pull = github3.pulls.PullRequest(self.json('pull'))
-        self.command = PullsCommand()
+        self.command = PullCommand()
         self.command.repository = ('sigmavirus24', 'github3.py')
         self.opts = self.command.parser.parse_args([])
         self.command.repo = github3.repos.Repository(self.json('repo'))

@@ -101,7 +101,7 @@ def get_issue_number(args, parser, error):
 
     number = trim_numbers(args[0])
     if not number.isdigit():
-        self.parser.error('A valid integer is required')
+        parser.error('A valid integer is required')
         return None
 
     return number
