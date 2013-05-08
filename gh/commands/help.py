@@ -31,11 +31,13 @@ class HelpCommand(Command):
 
         # Load all available commands
         for imp, command, ispkg in walk_packages(path=cmds.__path__):
+            load_command(command)
+            try:
+                self.subcommands[command] = commands[command].summary
+            except KeyError:
+                pass
             if ispkg:
                 load_subcommand(command, cmds.__path__[0])
-            else:
-                load_command(command)
-                self.subcommands[command] = commands[command].summary
 
         self.help()
 
