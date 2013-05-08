@@ -7,7 +7,7 @@ class GistLsCommand(Command):
     name = 'gist.ls'
     usage = '%prog [options] gist.ls [options]'
     summary = 'List gists'
-    gist_fs = '{0[bold]}{id}{0[default]} -- {desc}'
+    gist_fs = u'{0[bold]}{id}{0[default]} -- {desc}'
 
     def __init__(self):
         super(GistLsCommand, self).__init__()
@@ -44,7 +44,7 @@ class GistLsCommand(Command):
     def short_gist(self, gist):
         print(self.gist_fs.format(tc, id=gist.id, desc=gist.description))
         for f in gist.iter_files():
-            print('  {0}: {1} {2}'.format(f.filename, f.language, f.size))
+            print(u'  {0}: {1} {2}'.format(f.filename, f.language, f.size))
         print('  {0}'.format(gist.html_url))
 
 
