@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from gh.base import Command
 from gh.util import tc, wrap
 from gh.compat import fix_encoding
@@ -7,7 +9,7 @@ class GistLsCommand(Command):
     name = 'gist.ls'
     usage = '%prog [options] gist.ls [options]'
     summary = 'List gists'
-    gist_fs = '{0[bold]}{id}{0[default]} -- '
+    gist_fs = '{0[bold]}{id}{0[default]} -- {desc}'
 
     def __init__(self):
         super(GistLsCommand, self).__init__()
@@ -42,9 +44,9 @@ class GistLsCommand(Command):
         return self.SUCCESS
 
     def short_gist(self, gist):
-        print(self.gist_fs.format(tc, id=gist.id) + (gist.description or ''))
+        print(self.gist_fs.format(tc, id=gist.id, desc=gist.description))
         for f in gist.iter_files():
-            print('  %s: %s %s' % (f.filename, f.language, f.size))
+            print('  {0}: {1} {2}'.format(f.filename, f.language, f.size))
         print('  {0}'.format(gist.html_url))
 
 
