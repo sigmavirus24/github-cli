@@ -1,6 +1,6 @@
+import os
 from gh.base import Command
 from gh.util import mktmpfile, rmtmpfile
-
 
 class IssueCreateCommand(Command):
     name = 'issue.create'
@@ -28,21 +28,21 @@ class IssueCreateCommand(Command):
             return self.SUCCESS
 
         if not opts.title:
-            parser.error('issue.create requires a title')
-            parser.print_help()
+            print('issue.create requires a title')
+            self.parser.print_help()
             return self.FAILURE
 
         self.login()
 
         # I need to handle this on Windows too somehow
-        if not expandvars('$EDITOR'):
+        if not os.path.expandvars('$EDITOR'):
             print("$EDITOR not set")
             return self.FAILURE
 
         status = self.SUCCESS
         with mktmpfile('gh-newissue-') as fd:
             name = fd.name
-            system('$EDITOR {0}'.format(fd.name))
+            os.system('$EDITOR {0}'.format(fd.name))
 
         issue = self.repo.create_issue(opts.title, open(name).read())
 

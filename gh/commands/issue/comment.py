@@ -1,11 +1,12 @@
+import os
 from gh.base import Command
-from gh.util import get_issue_number
+from gh.util import get_issue_number, mktmpfile, rmtmpfile
 
 
 class IssueCommentCommand(Command):
     name = 'issue.comment'
     usage = '%prog [options] issue.comment [#]number'
-    summary = 'Comment on a command'
+    summary = 'Comment on an issue'
     subcommands = {}
 
     def run(self, options, args):
@@ -34,13 +35,13 @@ class IssueCommentCommand(Command):
         status = self.SUCCESS
 
         # I need to handle this on Windows too somehow
-        if not expandvars('$EDITOR'):
+        if not os.path.expandvars('$EDITOR'):
             print("$EDITOR not set")
             return self.FAILURE
 
         with mktmpfile('gh-issuecomment-') as fd:
             name = fd.name
-            system('$EDITOR {0}'.format(fd.name))
+            os.system('$EDITOR {0}'.format(fd.name))
 
         comment = issue.create_comment(open(name).read())
         if not comment:
