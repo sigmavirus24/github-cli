@@ -2,14 +2,14 @@ from gh.base import Command
 from gh.util import mktmpfile, rmtmpfile
 
 
-class CreateIssueCommand(Command):
+class IssueCreateCommand(Command):
     name = 'issue.create'
     usage = '%prog [options] issue.create [options]'
     summary = 'Create an issue on the specified repository'
     subcommands = {}
 
     def __init__(self):
-        super(CreateIssueCommand, self).__init__()
+        super(IssueCreateCommand, self).__init__()
         add = self.parser.add_option
         add('-t', '--title',
             dest='title',
@@ -56,4 +56,4 @@ class CreateIssueCommand(Command):
         return status
 
 
-CreateIssueCommand()
+IssueCreateCommand()
