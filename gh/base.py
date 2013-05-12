@@ -74,10 +74,10 @@ class Command(object):
                 pw = getpass('Password: ')
 
             # Get an authorization for this
-            auth = self.gh.authorize(user, pw, ['user', 'repo', 'gist'],
-                                     'github-cli',
-                                     'http://git.io/MEmEmw'
-                                     )
+            auth = self.gh.authorize(
+                user, pw, ['user', 'repo', 'gist'], 'github-cli',
+                'http://git.io/MEmEmw'
+            )
             parser.add_section('github')
             parser.set('github', 'token', auth.token)
             self.gh.login(token=auth.token)
@@ -110,7 +110,7 @@ class CustomOptionParser(OptionParser):
                         )
 
 
-main_parser = CustomOptionParser('%prog [options] [sub-command(s)]')
+main_parser = CustomOptionParser('%prog [options] <command>')
 main_parser.add_option('-u', '--basic-auth',
                        dest='basic_auth',
                        action='store_true',

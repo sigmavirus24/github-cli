@@ -1,14 +1,11 @@
 from gh.base import Command
 
 
-class FollowCommand(Command):
-    name = 'follow'
-    usage = '%prog [options] follow login'
+class UserFollowCommand(Command):
+    name = 'user.follow'
+    usage = '%prog [options] user.follow <login>'
     summary = 'Follow a user'
     subcommands = {}
-
-    def __init__(self):
-        super(FollowCommand, self).__init__()
 
     def run(self, options, args):
         opts, args = self.parser.parse_args(args)
@@ -29,4 +26,4 @@ class FollowCommand(Command):
         return status
 
 
-FollowCommand()
+UserFollowCommand()

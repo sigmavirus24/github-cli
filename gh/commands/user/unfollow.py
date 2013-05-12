@@ -1,14 +1,11 @@
 from gh.base import Command
 
 
-class UnfollowCommand(Command):
-    name = 'unfollow'
-    usage = '%prog [options] unfollow login'
+class UserUnfollowCommand(Command):
+    name = 'user.unfollow'
+    usage = '%prog [options] user.unfollow <login>'
     summary = 'Un-follow a user'
     subcommands = {}
-
-    def __init__(self):
-        super(UnfollowCommand, self).__init__()
 
     def run(self, options, args):
         opts, args = self.parser.parse_args(args)
@@ -30,4 +27,4 @@ class UnfollowCommand(Command):
         return status
 
 
-UnfollowCommand()
+UserUnfollowCommand()

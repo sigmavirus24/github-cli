@@ -10,7 +10,7 @@ def main():
         args = ['help']
 
     if not args:
-        main_parser.error('You must provide a command. '
+        main_parser.error('You must give a command. '
                           '(Use `gh help` to see a list of commands)')
 
     repository = ()
