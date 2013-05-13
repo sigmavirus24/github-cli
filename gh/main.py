@@ -30,5 +30,7 @@ def main():
         if status == commands[command].COMMAND_UNKNOWN:
             print('Unknown subcommand or option.')
             commands[command].help()
+    else:
+        main_parser.error('No such command "{0}"'.format(command))
 
     sys.exit(status)
