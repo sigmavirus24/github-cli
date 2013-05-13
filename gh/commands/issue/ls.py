@@ -1,23 +1,14 @@
-from gh.base import Command, CustomOptionParser
-from gh.util import tc, wrap, trim_numbers, sep
+from gh.base import Command
+from gh.util import tc
 from gh.compat import fix_encoding
-from github3 import GitHubError
-from os import system
-from os.path import expandvars
 
 
 class IssueLsCommand(Command):
     name = 'issue.ls'
-    usage = ('%prog [options] issues.ls [options]')
+    usage = '%prog [options] issues.ls [options]'
     summary = 'Interact with the Issues API'
-    fs = ('#{0.number} {bold}{0.title}{default} - @{0.user}')
-    subcommands = {
-        '[#]num comments': 'Print all the comments on this issue',
-        '[#]num close': 'Close this issue',
-        '[#]num reopen': 'Reopen this issue',
-        '[#]num assign <assignee>': 'Assign this issue to @<assignee>',
-        '[#]num comment': 'Comment on this issue using $EDITOR',
-    }
+    fs = '#{0.number:<%d} {bold}{0.title}{default} - @{0.user}'
+    subcommands = {}
 
     def __init__(self):
         super(IssueLsCommand, self).__init__()
@@ -86,11 +77,21 @@ class IssueLsCommand(Command):
 
     def print_issues(self, opts):
         status = self.SUCCESS
-        issues = self.repo.iter_issues(opts.milestone, opts.state,
-                                       direction=opts.direction,
-                                       mentioned=opts.mentioned,
-                                       number=opts.number)
+        issues = self.repo.iter_issues(
+            opts.milestone, opts.state, direction=opts.direction,
+            mentioned=opts.mentioned, number=opts.number
+        )
+
+        num_width_set = False
         for i in issues:
+            if not num_width_set:
+                n = i.number
+                width = 1
+                while n > 1:
+                    n /= 10
+                    width += 1
+                self.fs %= width
+                num_width_set = True
             print(self.format_short_issue(i))
 
         return status
